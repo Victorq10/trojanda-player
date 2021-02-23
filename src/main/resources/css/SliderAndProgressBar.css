@@ -1,0 +1,43 @@
+/*The following is the style setting of the horizontal slider*/
+/*thumb*/
+.slider .thumb {
+    -fx-pref-height: 16;
+    -fx-min-height: 16;
+    -fx-max-height: 16;
+    -fx-pref-width: 16;
+    -fx-min-width: 16;
+    -fx-max-width: 16;
+    -fx-background-image: url("/image/PlaySliderBarThumb.png");
+    -fx-background-size: 16, 16; /*Background image size*/
+    -fx-background-color: transparent;
+    -fx-background-radius: 2.0em;
+
+
+    -fx-border-insets: 0, 0, 0, 0;
+    -fx-padding: 0, 0, 0, 0;
+    -fx-background-insets: 0, 0, 0, 0;
+    -fx-border-image-insets: 0, 0, 0, 0;
+}
+
+.slider .track {
+    -fx-background-color: null;
+    -fx-min-height: 16;
+    -fx-max-height: 16;
+    -fx-pref-height: 16;
+}
+
+/*The following is the progress bar setting behind the drag bar*/
+.progress-bar > .bar {
+    -fx-pref-height: 2;
+    -fx-min-height: 2;
+    -fx-background-insets: 0;
+}
+
+.progress-bar:determinate > .bar {
+    -fx-background-color: #D13A3C;
+}
+
+.progress-bar > .track {
+    -fx-min-height: 2;
+    -fx-background-color: #E5E5E5;
+}
