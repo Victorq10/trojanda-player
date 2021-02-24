@@ -1,6 +1,7 @@
 package application.dto;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import javafx.beans.property.SimpleStringProperty;
 
 @XStreamAlias("SongInfo")
 public class SongInfo {
@@ -13,7 +14,8 @@ public class SongInfo {
     private String src;
     private String lyricsSrc;
     private int totalSeconds;
-    
+
+    private SimpleStringProperty nowPlaying = new SimpleStringProperty();
     private Long id;
     private String year;
     private String trackNumber;
@@ -101,6 +103,18 @@ public class SongInfo {
 
     public void setTotalSeconds(int totalSeconds) {
         this.totalSeconds = totalSeconds;
+    }
+
+    public String getNowPlaying() {
+        return nowPlaying.getValue();
+    }
+
+    public void setNowPlaying(String nowPlaying) {
+        this.nowPlaying.setValue(nowPlaying);
+    }
+    
+    public SimpleStringProperty nowPlayingProperty() {
+        return nowPlaying;
     }
 
     public Long getId() {

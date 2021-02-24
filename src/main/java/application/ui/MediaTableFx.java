@@ -59,17 +59,17 @@ public class MediaTableFx extends BorderPane {
         musicName = createTableColumn("musicName", 200, i18nService.getMessage("table.column.SongName"));
         musicName.setSortType(TableColumn.SortType.ASCENDING);
         musicName.getStyleClass().add("musicName"); // Add the class name to this column
-        
-        TableColumn<SongInfo, String> singer = createTableColumn("singer", 100, i18nService.getMessage("table.column.Artist"));
-        TableColumn<SongInfo, String> album = createTableColumn("album", 90, i18nService.getMessage("table.column.Album"));
-        TableColumn<SongInfo, String> totalTime = createTableColumn("totalTime", 100, i18nService.getMessage("table.column.TotalTime"));
-        TableColumn<SongInfo, String> size = createTableColumn("size", 80, i18nService.getMessage("table.column.Size"));
+        TableColumn<SongInfo, String> nowPlaying = createTableColumn("nowPlaying", 32, i18nService.getMessage("table.column.NowPlaying"), true);
+        TableColumn<SongInfo, String> singer = createTableColumn("singer", 200, i18nService.getMessage("table.column.Artist"));
+        TableColumn<SongInfo, String> album = createTableColumn("album", 200, i18nService.getMessage("table.column.Album"));
+        TableColumn<SongInfo, String> totalTime = createTableColumn("totalTime", 50, i18nService.getMessage("table.column.TotalTime"));
+        TableColumn<SongInfo, String> size = createTableColumn("size", 50, i18nService.getMessage("table.column.Size"));
         size.setMinWidth(80);
 
         songTableView = new TableView<>();
         songTableView.getStylesheets().add("css/TableViewStyle.css");
-        songTableView.getColumns().addAll(musicName, singer, album, totalTime, size);
-        songTableView.columnResizePolicyProperty().setValue(TableView.CONSTRAINED_RESIZE_POLICY);
+        songTableView.getColumns().addAll(nowPlaying, musicName, singer, album, totalTime, size);
+        songTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         songTableView.setRowFactory(tv -> {
             TableRow<SongInfo> row = new TableRow<>();
             row.setOnMouseClicked(this::rowOnMouseClickListener);
@@ -145,12 +145,20 @@ public class MediaTableFx extends BorderPane {
         //row.setBackground(row.isSelected() ? selectedRowBackground : null);
     }
 
-    private TableColumn<SongInfo, String> createTableColumn(String property, int width, String message) {
-        TableColumn column = new TableColumn<>(message);
-        column.setPrefWidth(width);
-        //column.setMaxWidth(width);
-        column.setMinWidth(80);
-        column.setCellValueFactory(new PropertyValueFactory<>(property));
+    private TableColumn<SongInfo, String> createTableColumn(String propertyName, int prefWidth, String message) {
+        return createTableColumn(propertyName, prefWidth, message, false);
+    }
+    private TableColumn<SongInfo, String> createTableColumn(String propertyName, int prefWidth, String message, boolean fixedWidth) {
+        TableColumn<SongInfo, String> column = new TableColumn<>(message);
+        column.setPrefWidth(prefWidth);
+        if (fixedWidth) {
+            column.setMaxWidth(prefWidth);
+            column.setResizable(false);
+            column.setSortable(false);
+        } else {
+            column.setMinWidth(80);
+        }
+        column.setCellValueFactory(new PropertyValueFactory<SongInfo, String>(propertyName));
         return column;
     }
 

@@ -306,6 +306,9 @@ public class TrojandaApplication extends Application {
             this.autoPlaySongListener = autoPlaySongListener;
         }
         private void fireAutoPlaySongListener(SongInfo currentSong) {
+            if (currentSong != null) {
+                currentSong.setNowPlaying("▶");
+            }
             if (this.autoPlaySongListener != null) {
                 this.autoPlaySongListener.accept(currentSong);
             }
@@ -448,6 +451,9 @@ public class TrojandaApplication extends Application {
             }
             media = null;
             mediaPlayer = null;
+            if (currentSong != null) {
+                currentSong.setNowPlaying("");
+            }
             currentSong = null;
             System.gc();
         }
