@@ -111,23 +111,11 @@ public class TrojandaApplication extends Application {
         Scene scene = new Scene(rootStackPane, primaryStageMinWidth, primaryStageMinHeight);
         primaryStage.setScene(scene);
         primaryStage.show();
-        // primaryStage.centerOnScreen();
-        primaryStage.setX((Screen.getPrimary().getVisualBounds().getWidth() - primaryStage.getWidth()) / 2.0);
-        primaryStage.setY((Screen.getPrimary().getVisualBounds().getHeight() - primaryStage.getHeight()) / 2.0);
-        primaryStage.setTitle(i18nService.getMessage("application.title")); // "音乐"
-        primaryStage.getIcons().add(new Image("image/ApplicationIcon.png"));// 设置任务栏图标
-
-        primaryStage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                // Make sure that after the window is minimized in the maximized state, the size of the screen occupied 
-                // when the taskbar icon is clicked is a visual full screen
-                if (primaryStage.isMaximized()) {
-                    primaryStage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
-                    primaryStage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
-                }
-            }
-        });
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        primaryStage.setX(visualBounds.getMinX() + (visualBounds.getWidth() - primaryStage.getWidth()) / 2.0);
+        primaryStage.setY(visualBounds.getMinY() + (visualBounds.getHeight() - primaryStage.getHeight()) / 2.0);
+        primaryStage.setTitle(i18nService.getMessage("application.title"));
+        primaryStage.getIcons().add(new Image("image/mallow32.png"));
     }
 
     /** 
