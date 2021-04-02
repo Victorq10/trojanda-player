@@ -6,12 +6,14 @@ TASKS:
 + (2021-02-23) (15m) - Add playlist Most played
 + (2021-02-23) (15m) - Add playlist Recently added
 + (2021-02-23) (15m) - Add playlist Most rated
++ (2021-02-24) (3h)  - Implement “Now Playing” indicator in the TableView
     • refactor dynamic lists
     • implement Service to select song by criteria for dynamic lists
     • implement Service to select playlist songs
 -                   Add a boolean column to songs table "Missed"
 -                   Add dynamic List “Missed songs” under "Local Music" label
 
+- Implement ctrl-j accelerator key to jump to current song
 - Implement Splitter between SideBar and Table view.
 - Implement scaning directories in separate thread to not hang up UI. 
 - Implement gstream to play OPUS files.

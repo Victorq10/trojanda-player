@@ -108,8 +108,12 @@ public class DefaultSongService {
                 .collect(Collectors.toList());
         for (Path dirPath : existedDirs) {
             try {
+                LogTime logTime = new LogTime();
                 List<FolderModel> folders = addAllFoldersToDatabase(dirPath);
+                logTime.log("Collect all " + folders.size() + " folders");
+                LogTime t2 = new LogTime();
                 addAllSongsToDatabase(folders);
+                t2.log("Add All Songs To Database");
             } catch (Exception e) {
                 e.printStackTrace();
             }
