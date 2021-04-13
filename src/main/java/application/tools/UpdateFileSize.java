@@ -14,22 +14,18 @@ public class UpdateFileSize {
 
     SongDao songDao = SongDao.INSTANCE;
 
-    public UpdateFileSize() throws IOException {
-        DefaultDatabaseService.databaseService = new DefaultDatabaseService();
-    }
     public static void main(String[] args) throws IOException, SQLException {
         try {
+            DefaultDatabaseService.INSTANCE.initConnection();
             UpdateFileSize t = new UpdateFileSize();
             t.formatFileSize();
         } finally {
-            if (DefaultDatabaseService.databaseService != null) {
-                DefaultDatabaseService.databaseService.stop();
-            }
+            DefaultDatabaseService.INSTANCE.stop();
         }
     }
     
     DbHelper db() {
-        return DefaultDatabaseService.databaseService.dbHelper;
+        return DefaultDatabaseService.INSTANCE.dbHelper;
     }
 
     private void formatFileSize() throws SQLException {

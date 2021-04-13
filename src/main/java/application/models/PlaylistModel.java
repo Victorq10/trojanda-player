@@ -2,7 +2,7 @@ package application.models;
 
 import java.util.List;
 
-public class PlaylistModel {
+public class PlaylistModel extends AbstractModel {
     Long id;
     String name;
     List<SongModel> songs;

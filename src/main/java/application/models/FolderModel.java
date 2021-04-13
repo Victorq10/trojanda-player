@@ -2,7 +2,7 @@ package application.models;
 
 import java.util.List;
 
-public class FolderModel {
+public class FolderModel extends AbstractModel {
     Long id;
     String location;
     String folderSize;

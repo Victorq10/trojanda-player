@@ -2,7 +2,7 @@ package application.models;
 
 import java.util.Date;
 
-public class SongModel {
+public class SongModel extends AbstractModel {
     Long id;
     FolderModel folder;
     String trackNumber;

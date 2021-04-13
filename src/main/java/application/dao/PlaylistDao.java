@@ -6,19 +6,26 @@ import application.models.PlaylistModel;
 import application.models.SongModel;
 import application.utils.DbHelper;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlaylistDao extends AbstractDao {
+public class PlaylistDao extends AbstractDao<PlaylistModel> {
     public static final PlaylistDao INSTANCE = new PlaylistDao();
     private final PlaylistConvertor playlistConvertor = PlaylistConvertor.INSTANCE;
     private final SongConvertor songConvertor = SongConvertor.INSTANCE;
     
-    private PlaylistDao() {}
-    
+    private PlaylistDao() {
+        super("PLAYLIST");
+    }
+
+    protected DbHelper.Convertor<ResultSet, PlaylistModel> getConvertor() {
+        return playlistConvertor;
+    }
+
     //language=Derby
     private static final String playlist_DerbyDb = "CREATE TABLE Playlist (\n" +
             " ID        BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,\n" +
@@ -65,6 +72,7 @@ public class PlaylistDao extends AbstractDao {
     }
 
     public List<PlaylistModel> getAllPlaylists() throws SQLException {
+        //return super.findAll();
         DbHelper.SqlQuery sqlQuery = db().createSqlQuery("SELECT * FROM Playlist");
         List<PlaylistModel> result = db().selectQuery(sqlQuery, playlistConvertor);
         return result;

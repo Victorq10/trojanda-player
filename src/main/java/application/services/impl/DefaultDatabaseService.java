@@ -10,12 +10,14 @@ import java.sql.Statement;
 import java.util.List;
 
 public class DefaultDatabaseService extends AbstractDatabaseService {
-    public static DefaultDatabaseService databaseService;
+    public static final DefaultDatabaseService INSTANCE = new DefaultDatabaseService();
     
-    public DefaultDatabaseService() throws IOException {
+    private DefaultDatabaseService() {
+        super();
     }
 
-    public String getConnectionUrl() throws IOException {
+    @Override
+    protected String getConnectionUrl() {
         // Set the db system directory.
         System.setProperty("derby.system.home", configurationService.getDataDir().toString());
         String connectionUrl = "jdbc:derby:derbydb;create=true"; //+ ";user=dbuser;password=dbuserpwd";
@@ -23,7 +25,7 @@ public class DefaultDatabaseService extends AbstractDatabaseService {
     }
 
     @Override
-    public boolean createTablesAndIndexes() {
+    protected boolean createTablesAndIndexes() {
         boolean createdTables = false;
         String[] dropTables = {
                 "DROP TABLE \"APP\".\"PLAYLISTSONGRELATION\"",

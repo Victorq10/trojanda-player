@@ -5,15 +5,21 @@ import application.dao.convertors.FolderConvertor;
 import application.utils.DbHelper;
 
 import java.nio.file.Path;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class FolderDao extends AbstractDao {
+public class FolderDao extends AbstractDao<FolderModel> {
     public static final FolderDao INSTANCE = new FolderDao();
     private final FolderConvertor folderConvertor = FolderConvertor.INSTANCE;
 
     private FolderDao() {
+        super("FOLDERS");
+    }
+
+    protected DbHelper.Convertor<ResultSet, FolderModel> getConvertor() {
+        return folderConvertor;
     }
 
     //language=Derby
@@ -76,6 +82,7 @@ public class FolderDao extends AbstractDao {
     }
 
     public List<FolderModel> getAllFolders() throws SQLException {
+        //return super.findAll();
         DbHelper.SqlQuery sqlQuery = db().createSqlQuery("SELECT * FROM Folders");
         List<FolderModel> result = db().selectQuery(sqlQuery, folderConvertor);
         return result;
@@ -92,9 +99,7 @@ public class FolderDao extends AbstractDao {
     }
 
     public void deleteFolder(FolderModel folder) throws SQLException {
-        DbHelper.DeleteQuery deleteQuery = db().createDeleteQuery("Folders", "Id");
-        deleteQuery.setLong("Id", folder.getId());
-        db().executeQuery(deleteQuery);
+        super.delete("Folders", "Id", folder.getId());
     }
 
 }

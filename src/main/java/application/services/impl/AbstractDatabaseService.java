@@ -26,24 +26,24 @@ public abstract class AbstractDatabaseService {
     private Connection dbConnection;
     public DbHelper dbHelper;
 
-    public AbstractDatabaseService() throws IOException {
-        openConnection();
+    protected AbstractDatabaseService() {
     }
+    
+    protected abstract String getConnectionUrl();
 
-    abstract String getConnectionUrl() throws IOException;
-
-    abstract boolean createTablesAndIndexes() throws IOException;
+    protected abstract boolean createTablesAndIndexes();
 
     protected Connection getConnection() {
         return dbConnection;
     }
 
-    public final void openConnection() throws IOException {
+    public final void initConnection() throws IOException {
         try {
             dbConnection = DriverManager.getConnection(getConnectionUrl());
             dbHelper = new DbHelper(dbConnection);
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         createTablesAndIndexes();
     }

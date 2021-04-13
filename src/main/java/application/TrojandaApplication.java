@@ -75,7 +75,7 @@ public class TrojandaApplication extends Application {
 
     @Override
     public void init() throws Exception {
-        DefaultDatabaseService.databaseService = new DefaultDatabaseService();
+        DefaultDatabaseService.INSTANCE.initConnection();
         configurationService = DefaultConfigurationService.INSTANCE;
         this.play.reloadSongs();
     }
@@ -84,10 +84,7 @@ public class TrojandaApplication extends Application {
     public void stop() throws Exception {
         super.stop();
         mediaPlayerPlayback.despose();
-        if (DefaultDatabaseService.databaseService != null) {
-            DefaultDatabaseService.databaseService.stop();
-        }
-
+        DefaultDatabaseService.INSTANCE.stop();
     }
 
     @Override
