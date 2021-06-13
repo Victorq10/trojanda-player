@@ -1,13 +1,10 @@
 package application;
 
-import application.songs.SongInfo;
 import application.core.playback.MediaPlayerPlayback;
-import application.core.appconfig.ConfigurationService;
-import application.core.database.DatabaseService;
-import application.core.i18n.I18nService;
 import application.core.view.MediaTableFx;
 import application.core.view.PlayControlsFx;
 import application.core.view.PlayListsFx;
+import application.songs.SongInfo;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -38,13 +35,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import static application.core.database.DatabaseService.databaseService;
 import static application.core.i18n.I18nService.i18nService;
 import static application.songs.SongService.songService;
 
 public class TrojandaApplication extends Application {
-
-    public static ConfigurationService configurationService;
-    //public static DefaultDatabaseService databaseService;
 
     public static Color PRIMARY_HIGHLIGHT_BG_COLOR = Color.rgb(200, 88, 86);
     public static Color PRIMARY_BG_COLOR = Color.rgb(188, 47, 45);
@@ -59,10 +54,10 @@ public class TrojandaApplication extends Application {
     private double primaryStageMinWidth = 858;
     private double primaryStageMinHeight = 570;
 
-    static final String sequencePlay = I18nService.i18nService.getMessage("player.playMode.sequencePlay");
-    static final String sequenceRoop = I18nService.i18nService.getMessage("player.playMode.sequenceRoop");
-    static final String singleRoop = I18nService.i18nService.getMessage("player.playMode.singleRoop");
-    static final String randomPlay = I18nService.i18nService.getMessage("player.playMode.randomPlay");
+    static final String sequencePlay = i18nService.getMessage("player.playMode.sequencePlay");
+    static final String sequenceRoop = i18nService.getMessage("player.playMode.sequenceRoop");
+    static final String singleRoop = i18nService.getMessage("player.playMode.singleRoop");
+    static final String randomPlay = i18nService.getMessage("player.playMode.randomPlay");
 
     private Stage primaryStage;
     private BorderPane rootBorderPane;
@@ -74,8 +69,7 @@ public class TrojandaApplication extends Application {
 
     @Override
     public void init() throws Exception {
-        DatabaseService.databaseService.initConnection();
-        configurationService = ConfigurationService.configurationService;
+        databaseService.initConnection();
         this.play.reloadSongs();
     }
 
@@ -83,7 +77,7 @@ public class TrojandaApplication extends Application {
     public void stop() throws Exception {
         super.stop();
         mediaPlayerPlayback.despose();
-        DatabaseService.databaseService.stop();
+        databaseService.stop();
     }
 
     @Override
@@ -96,11 +90,11 @@ public class TrojandaApplication extends Application {
         // The bottom borderPane of the main stage (main interface)
         rootBorderPane = new BorderPane();
         rootBorderPane.setBackground(new Background(new BackgroundFill(Color.rgb(250, 250, 252), null, null)));
-        rootBorderPane.setLeft(getLeftPane());
-        rootBorderPane.setCenter(getCenterPane());
+        rootBorderPane.setLeft(getLeftPane_PlayListsFx());
+        rootBorderPane.setCenter(getCenterPane_MediaTableFx());
 //        SplitPane splitPane = new SplitPane(getLeftPane(), getCenterPane());
 //        rootBorderPane.setCenter(splitPane);
-        rootBorderPane.setBottom(getBottomPane());
+        rootBorderPane.setBottom(getBottomPane_PlayControlsFx());
         rootBorderPane.setBorder(new Border(new BorderStroke(Color.rgb(110, 110, 111), BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
         // StackPane всієї основної сцени (основного інтерфейсу) розміщується внизу. Інформаційна підказка для
         // перемикання режиму відтворення може бути динамічно додана у верхню частину stageStackPane, а підказкова
@@ -123,14 +117,14 @@ public class TrojandaApplication extends Application {
      *
      * @return
      */
-    private BorderPane getLeftPane() {
+    private BorderPane getLeftPane_PlayListsFx() {
         musicLibraryFx = new PlayListsFx(primaryStage);
         musicLibraryFx.setBeforeDialogShowListener(listeners::beforeDialogShowListener);
         musicLibraryFx.setAfterDialogShowListener(listeners::afterDialogShowListener);
         return musicLibraryFx;
     }
 
-    private BorderPane getCenterPane() {
+    private BorderPane getCenterPane_MediaTableFx() {
         //createLyricPane();
         mediaTableFx = new MediaTableFx(primaryStage);
         mediaTableFx.setSongSelectedListener(listeners::songSelectedListener);
@@ -149,7 +143,7 @@ public class TrojandaApplication extends Application {
      * Create the lower playback control panel, including previous song, pause, next song, playback time display,
      * progress bar display, etc.
      */
-    private PlayControlsFx getBottomPane() {
+    private PlayControlsFx getBottomPane_PlayControlsFx() {
         playControlsFx = new PlayControlsFx();
         playControlsFx.setPlayPreviousListener(listeners::playPreviousListener);
         playControlsFx.setPlayListener(listeners::playButtonListener);
@@ -163,7 +157,7 @@ public class TrojandaApplication extends Application {
     }
 
     private Listeners listeners = new Listeners();
-    class Listeners {
+    public class Listeners {
         private void preferencesClosedListener() {
             //First need to deal with the mediaPlayer player object, release resources
             mediaPlayerPlayback.despose();
@@ -298,7 +292,7 @@ public class TrojandaApplication extends Application {
     private Play play = new Play();
     private MediaPlayerPlayback mediaPlayerPlayback = new MediaPlayerPlayback();
 
-    class Play {
+    public class Play {
         private void updateSongOnStartToPlay(SongInfo song) {
             if (currentSong != null) {
                 currentSong.setNowPlaying("");
