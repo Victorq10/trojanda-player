@@ -41,7 +41,7 @@ import javafx.util.Duration;
 
 import java.util.function.Consumer;
 
-import static application.core.i18n.DefaultI18nService.i18nService;
+import static application.core.i18n.I18nService.i18nService;
 
 public class MediaTableFx extends BorderPane {
 

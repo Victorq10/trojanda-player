@@ -9,14 +9,14 @@ import java.sql.Statement;
 import java.util.List;
 
 import static application.folders.FolderDao.folderDao;
-import static application.core.appconfig.DefaultConfigurationService.configurationService;
+import static application.core.appconfig.ConfigurationService.configurationService;
 import static application.playlists.PlaylistDao.playlistDao;
 import static application.songs.SongDao.songDao;
 
-public class DefaultDatabaseService extends AbstractDatabaseService {
-    public static final DefaultDatabaseService databaseService = new DefaultDatabaseService();
+public class DatabaseService extends AbstractDatabaseService {
+    public static final DatabaseService databaseService = new DatabaseService();
 
-    private DefaultDatabaseService() {
+    private DatabaseService() {
         super();
     }
 

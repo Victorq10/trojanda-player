@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static application.core.appconfig.DefaultConfigurationService.configurationService;
+import static application.core.appconfig.ConfigurationService.configurationService;
 
 public abstract class AbstractDaoXml<T> {
 

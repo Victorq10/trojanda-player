@@ -3,7 +3,7 @@ package application.core.view;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-import static application.core.i18n.DefaultI18nService.i18nService;
+import static application.core.i18n.I18nService.i18nService;
 
 public class GlobalMenu extends ContextMenu {
     public static GlobalMenu globalMenu = new GlobalMenu();

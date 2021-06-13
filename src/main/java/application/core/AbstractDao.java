@@ -1,6 +1,6 @@
 package application.core;
 
-import application.core.database.DefaultDatabaseService;
+import application.core.database.DatabaseService;
 import application.core.database.DbHelper;
 
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public abstract class AbstractDao<T extends AbstractModel> {
     protected DbHelper db() {
-        return DefaultDatabaseService.databaseService.dbHelper;
+        return DatabaseService.databaseService.dbHelper;
     }
 
     protected String tableName;

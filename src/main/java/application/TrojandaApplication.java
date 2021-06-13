@@ -2,9 +2,9 @@ package application;
 
 import application.songs.SongInfo;
 import application.core.playback.MediaPlayerPlayback;
-import application.core.appconfig.DefaultConfigurationService;
-import application.core.database.DefaultDatabaseService;
-import application.core.i18n.DefaultI18nService;
+import application.core.appconfig.ConfigurationService;
+import application.core.database.DatabaseService;
+import application.core.i18n.I18nService;
 import application.core.view.MediaTableFx;
 import application.core.view.PlayControlsFx;
 import application.core.view.PlayListsFx;
@@ -38,12 +38,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import static application.core.i18n.DefaultI18nService.i18nService;
-import static application.songs.DefaultSongService.songService;
+import static application.core.i18n.I18nService.i18nService;
+import static application.songs.SongService.songService;
 
 public class TrojandaApplication extends Application {
 
-    public static DefaultConfigurationService configurationService;
+    public static ConfigurationService configurationService;
     //public static DefaultDatabaseService databaseService;
 
     public static Color PRIMARY_HIGHLIGHT_BG_COLOR = Color.rgb(200, 88, 86);
@@ -59,10 +59,10 @@ public class TrojandaApplication extends Application {
     private double primaryStageMinWidth = 858;
     private double primaryStageMinHeight = 570;
 
-    static final String sequencePlay = DefaultI18nService.i18nService.getMessage("player.playMode.sequencePlay");
-    static final String sequenceRoop = DefaultI18nService.i18nService.getMessage("player.playMode.sequenceRoop");
-    static final String singleRoop = DefaultI18nService.i18nService.getMessage("player.playMode.singleRoop");
-    static final String randomPlay = DefaultI18nService.i18nService.getMessage("player.playMode.randomPlay");
+    static final String sequencePlay = I18nService.i18nService.getMessage("player.playMode.sequencePlay");
+    static final String sequenceRoop = I18nService.i18nService.getMessage("player.playMode.sequenceRoop");
+    static final String singleRoop = I18nService.i18nService.getMessage("player.playMode.singleRoop");
+    static final String randomPlay = I18nService.i18nService.getMessage("player.playMode.randomPlay");
 
     private Stage primaryStage;
     private BorderPane rootBorderPane;
@@ -74,8 +74,8 @@ public class TrojandaApplication extends Application {
 
     @Override
     public void init() throws Exception {
-        DefaultDatabaseService.databaseService.initConnection();
-        configurationService = DefaultConfigurationService.configurationService;
+        DatabaseService.databaseService.initConnection();
+        configurationService = ConfigurationService.configurationService;
         this.play.reloadSongs();
     }
 
@@ -83,7 +83,7 @@ public class TrojandaApplication extends Application {
     public void stop() throws Exception {
         super.stop();
         mediaPlayerPlayback.despose();
-        DefaultDatabaseService.databaseService.stop();
+        DatabaseService.databaseService.stop();
     }
 
     @Override

@@ -6,8 +6,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 
-public class DefaultI18nService {
-    public static final DefaultI18nService i18nService = new DefaultI18nService();
+public class I18nService {
+    public static final I18nService i18nService = new I18nService();
     private static Locale ukLocale;
     private static Locale zhCNLocale;
 
@@ -21,7 +21,7 @@ public class DefaultI18nService {
 
 
     //private ResourceBundle bundle;
-    private DefaultI18nService() {
+    private I18nService() {
         //bundle = ResourceBundle.getBundle("/messages/messages", ukLocal);
     }
 

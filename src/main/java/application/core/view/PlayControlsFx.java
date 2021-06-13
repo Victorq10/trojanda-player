@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static application.core.i18n.DefaultI18nService.i18nService;
+import static application.core.i18n.I18nService.i18nService;
 
 public class PlayControlsFx extends BorderPane {
 

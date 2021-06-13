@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import static application.core.preferences.PreferencesDaoXml.preferencesDaoXml;
 
-public class DefaultPreferencesService {
-    public static final DefaultPreferencesService preferencesService = new DefaultPreferencesService();
+public class PreferencesService {
+    public static final PreferencesService preferencesService = new PreferencesService();
 
     Preferences preferences;
 

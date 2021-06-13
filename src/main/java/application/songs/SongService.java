@@ -11,18 +11,17 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static application.core.audiotags.DefaultAudioTagsService.audioTagsService;
-import static application.core.preferences.DefaultPreferencesService.preferencesService;
-import static application.folders.FolderDao.folderDao;
+import static application.core.audiotags.AudioTagsService.audioTagsService;
+import static application.core.preferences.PreferencesService.preferencesService;
+import static application.folders.FolderService.folderService;
 import static application.songs.SongDao.songDao;
 
 
-public class DefaultSongService {
-    public static final DefaultSongService songService = new DefaultSongService();
+public class SongService {
+    public static final SongService songService = new SongService();
 
     private List<String> supportedFileTypes = List.of("mp3", "ogg", "opus", "m4a");
 
@@ -105,7 +104,7 @@ public class DefaultSongService {
         for (Path dirPath : existedDirs) {
             try {
                 LogTime logTime = new LogTime();
-                List<FolderModel> folders = addAllFoldersToDatabase(dirPath);
+                List<FolderModel> folders = folderService.addAllFoldersToDatabase(dirPath);
                 logTime.log("Collect all " + folders.size() + " folders");
                 LogTime t2 = new LogTime();
                 addAllSongsToDatabase(folders);
@@ -114,29 +113,6 @@ public class DefaultSongService {
                 e.printStackTrace();
             }
         }
-    }
-
-    private List<FolderModel> addAllFoldersToDatabase(Path dirPath) throws IOException, SQLException {
-        List<FolderModel> savedFolders = new ArrayList<>();
-        LinkedList<FolderModel> queue = new LinkedList<>();
-        queue.offer(createFolderModel(dirPath, null));
-        for (FolderModel currentFolder = queue.poll(); currentFolder != null; currentFolder = queue.poll()) {
-            FolderModel existedFolder = folderDao.getFolderByLocation(currentFolder.getLocation());
-            if (existedFolder == null) {
-                folderDao.addFolder(currentFolder);
-            } else {
-                currentFolder = existedFolder;
-            }
-            savedFolders.add(currentFolder);
-
-            Path currentPath = Paths.get(currentFolder.getLocation());
-            try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(currentPath, (p) -> Files.isDirectory(p))) {
-                for (Path subPath : dirStream) {
-                    queue.offer(createFolderModel(subPath, currentFolder));
-                }
-            }
-        }
-        return savedFolders;
     }
 
     private List<SongModel> addAllSongsToDatabase(List<FolderModel> folders) throws IOException, SQLException {
@@ -221,14 +197,4 @@ public class DefaultSongService {
         song.setDuration(songInfo.getTotalTime());
         return song;
     }
-
-    private FolderModel createFolderModel(Path path, FolderModel parentFolder) throws IOException {
-        FolderModel folder = new FolderModel();
-        folder.setLocation(path.toString());
-        folder.setFolderSize("" + Files.size(path));
-        folder.setSongCount(0);
-        folder.setParent(parentFolder);
-        return folder;
-    }
-
 }

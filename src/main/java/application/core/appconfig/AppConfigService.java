@@ -2,8 +2,8 @@ package application.core.appconfig;
 
 import static application.core.appconfig.AppConfigDaoXml.appConfigDaoXml;
 
-public class DefaultAppConfigService {
-    public static final DefaultAppConfigService appConfigService = new DefaultAppConfigService();
+public class AppConfigService {
+    public static final AppConfigService appConfigService = new AppConfigService();
 
     AppConfig appConfig;
 

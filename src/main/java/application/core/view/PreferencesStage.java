@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static application.core.i18n.DefaultI18nService.i18nService;
-import static application.core.preferences.DefaultPreferencesService.preferencesService;
-import static application.songs.DefaultSongService.songService;
+import static application.core.i18n.I18nService.i18nService;
+import static application.core.preferences.PreferencesService.preferencesService;
+import static application.songs.SongService.songService;
 
 public class PreferencesStage extends Stage {
     private double width = 700;

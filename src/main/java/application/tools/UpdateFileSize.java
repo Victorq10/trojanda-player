@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-import static application.core.database.DefaultDatabaseService.databaseService;
+import static application.core.database.DatabaseService.databaseService;
 import static application.songs.SongDao.songDao;
 
 public class UpdateFileSize {

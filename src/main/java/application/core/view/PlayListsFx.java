@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static application.core.i18n.DefaultI18nService.i18nService;
+import static application.core.i18n.I18nService.i18nService;
 import static application.core.view.GlobalMenu.globalMenu;
-import static application.playlists.DefaultPlaylistService.playlistService;
+import static application.playlists.PlaylistService.playlistService;
 
 public class PlayListsFx extends BorderPane {
 

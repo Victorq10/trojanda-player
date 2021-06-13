@@ -21,15 +21,15 @@ import static application.core.appconfig.AppConfigDaoXml.appConfigDaoXml;
  * <p><b>AppConfig.xml</b> — it is stored in the DataDir and can be changed by user by editing config file.</p>
  * <p><b>Preferences.xml</b> — it is stored in the DataDir and can be changed by user by UI Preferences dialog.</p>
  */
-public class DefaultConfigurationService {
-    public static DefaultConfigurationService configurationService;
+public class ConfigurationService {
+    public static ConfigurationService configurationService;
 
     private AppConfig appConfig;
     private Properties dbProperties = null;
     private String dbName;
 
     static {
-        DefaultConfigurationService.configurationService = new DefaultConfigurationService();
+        ConfigurationService.configurationService = new ConfigurationService();
         loadConfiguration();
     }
 

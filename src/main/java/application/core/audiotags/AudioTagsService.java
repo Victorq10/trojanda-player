@@ -21,8 +21,8 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DefaultAudioTagsService {
-    public static final DefaultAudioTagsService audioTagsService = new DefaultAudioTagsService();
+public class AudioTagsService {
+    public static final AudioTagsService audioTagsService = new AudioTagsService();
 
     public SongInfo getSongInfo(Path songPath) {
         SongInfo songInfo = null;

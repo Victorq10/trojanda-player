@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 import static application.playlists.PlaylistDao.playlistDao;
 
-public class DefaultPlaylistService {
-    public static final DefaultPlaylistService playlistService = new DefaultPlaylistService();
+public class PlaylistService {
+    public static final PlaylistService playlistService = new PlaylistService();
 
     public List<String> getPlaylistNames() {
         List<PlaylistModel> playlists;
