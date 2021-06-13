@@ -17,7 +17,7 @@ public class PlaylistDao extends AbstractDao<PlaylistModel> {
     public static final PlaylistDao INSTANCE = new PlaylistDao();
     private final PlaylistConvertor playlistConvertor = PlaylistConvertor.INSTANCE;
     private final SongConvertor songConvertor = SongConvertor.INSTANCE;
-    
+
     private PlaylistDao() {
         super("PLAYLIST");
     }
@@ -27,20 +27,24 @@ public class PlaylistDao extends AbstractDao<PlaylistModel> {
     }
 
     //language=Derby
-    private static final String playlist_DerbyDb = "CREATE TABLE Playlist (\n" +
-            " ID        BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,\n" +
-            " NAME      VARCHAR(255)" +
-            ")";
+    private static final String playlist_DerbyDb = """
+            CREATE TABLE Playlist (
+                ID        BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+                NAME      VARCHAR(255)
+            )
+            """;
 
     //language=Derby
-    private static final String playlistSongRelation_DerbyDb = "CREATE TABLE PlaylistSongRelation (\n" +
-            " ID          BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,\n" +
-            " source      BIGINT NOT NULL,\n" +
-            " target      BIGINT NOT NULL,\n" +
-            " UNIQUE (source, target)," +
-            " FOREIGN KEY (source) REFERENCES Playlist (ID),\n" +
-            " FOREIGN KEY (target) REFERENCES Songs (ID)\n" +
-            ")";
+    private static final String playlistSongRelation_DerbyDb = """
+            CREATE TABLE PlaylistSongRelation (
+                ID          BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                source      BIGINT NOT NULL,
+                target      BIGINT NOT NULL,
+                UNIQUE (source, target),
+                FOREIGN KEY (source) REFERENCES Playlist (ID),
+                FOREIGN KEY (target) REFERENCES Songs (ID)
+            )
+            """;
 
 
     @Override
@@ -63,7 +67,7 @@ public class PlaylistDao extends AbstractDao<PlaylistModel> {
         playlist.setId(playlistId);
         return playlist;
     }
-    
+
     public void addPlaylistSongRelation(long playlistId, long songId) throws SQLException {
         DbHelper.InsertQuery insertQuery = db().createInsertQuery("PlaylistSongRelation");
         insertQuery.setLong("source", playlistId);
@@ -79,11 +83,12 @@ public class PlaylistDao extends AbstractDao<PlaylistModel> {
     }
 
     public PlaylistModel loadPlaylistSongs(PlaylistModel playlist) throws SQLException {
-        DbHelper.SqlQuery sqlQuery = db().createSqlQuery("" +
-                "SELECT s.* \n" +
-                "FROM PlaylistSongRelation AS l\n" +
-                "   JOIN Songs AS s ON l.target = s.id\n" +
-                "WHERE l.source = ?playlistId");
+        DbHelper.SqlQuery sqlQuery = db().createSqlQuery("""
+                SELECT s.* 
+                FROM PlaylistSongRelation AS l
+                   JOIN Songs AS s ON l.target = s.id
+                WHERE l.source = ?playlistId
+                """);
         sqlQuery.setLong("playlistId", playlist.getId());
         List<SongModel> result = db().selectQuery(sqlQuery, songConvertor);
         playlist.setSongs(result);

@@ -28,7 +28,7 @@ public abstract class AbstractDatabaseService {
 
     protected AbstractDatabaseService() {
     }
-    
+
     protected abstract String getConnectionUrl();
 
     protected abstract boolean createTablesAndIndexes();
@@ -85,11 +85,12 @@ public abstract class AbstractDatabaseService {
             return tableNames.getString("TABLE_NAME").equalsIgnoreCase(table);
         }
 /*
-        String sql = "SELECT * FROM INFORMATION_SCHEMA.TABLES as C " +
-                "WHERE " +
-                "    lower(C.TABLE_SCHEMA)    = '" + schema.toLowerCase() + "' " +
-                "    AND lower(C.TABLE_NAME) = '" + table.toLowerCase() + "'" +
-                "";
+        String sql = String.format("""
+                SELECT * FROM INFORMATION_SCHEMA.TABLES as C
+                WHERE
+                    lower(C.TABLE_SCHEMA)    = '%s'
+                    AND lower(C.TABLE_NAME) = '%s'
+                """, schema.toLowerCase(), table.toLowerCase());
         Connection con = dbConnection;
         try (PreparedStatement statement = con.prepareStatement(sql)) {
             ResultSet rs = statement.executeQuery();

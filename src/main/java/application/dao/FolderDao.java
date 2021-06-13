@@ -23,16 +23,20 @@ public class FolderDao extends AbstractDao<FolderModel> {
     }
 
     //language=Derby
-    private static final String folders_DerbyDb = "CREATE TABLE folders (\n" +
-            " ID         BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,\n" +
-            " Location   VARCHAR(1000),\n" +
-            " FolderSize VARCHAR(50),\n" +
-            " SongCount  INTEGER,\n" +
-            " Parent     BIGINT\n" +
-            ")";
+    private static final String folders_DerbyDb = """
+            CREATE TABLE folders (
+                ID         BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                Location   VARCHAR(1000),
+                FolderSize VARCHAR(50),
+                SongCount  INTEGER,
+                Parent     BIGINT
+            )
+            """;
 
     //language=Derby
-    private static final String folderLocationIdx_DerbyDb = "CREATE INDEX folder_Location_Idx ON Folders (Location)";
+    private static final String folderLocationIdx_DerbyDb = """
+        CREATE INDEX folder_Location_Idx ON Folders (Location)
+        """;
 
     @Override
     public Map<String, String> getCreateTableStatements() {
