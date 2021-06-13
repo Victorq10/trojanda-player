@@ -1,11 +1,5 @@
 package application.core.database;
 
-import application.folders.FolderDao;
-import application.playlists.PlaylistDao;
-import application.core.appconfig.DefaultConfigurationService;
-import application.songs.SongDao;
-import application.core.utils.DbHelper;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,11 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractDatabaseService {
-
-    protected DefaultConfigurationService configurationService = DefaultConfigurationService.INSTANCE;
-    protected FolderDao folderDao = FolderDao.INSTANCE;
-    protected PlaylistDao playlistDao = PlaylistDao.INSTANCE;
-    protected SongDao songDao = SongDao.INSTANCE;
 
     private Connection dbConnection;
     public DbHelper dbHelper;

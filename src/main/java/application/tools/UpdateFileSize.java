@@ -1,31 +1,30 @@
 package application.tools;
 
-import application.songs.SongDao;
+import application.core.database.DbHelper;
 import application.songs.SongModel;
-import application.core.database.DefaultDatabaseService;
-import application.core.utils.DbHelper;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-public class UpdateFileSize {
+import static application.core.database.DefaultDatabaseService.databaseService;
+import static application.songs.SongDao.songDao;
 
-    SongDao songDao = SongDao.INSTANCE;
+public class UpdateFileSize {
 
     public static void main(String[] args) throws IOException, SQLException {
         try {
-            DefaultDatabaseService.INSTANCE.initConnection();
+            databaseService.initConnection();
             UpdateFileSize t = new UpdateFileSize();
             t.formatFileSize();
         } finally {
-            DefaultDatabaseService.INSTANCE.stop();
+            databaseService.stop();
         }
     }
 
     DbHelper db() {
-        return DefaultDatabaseService.INSTANCE.dbHelper;
+        return databaseService.dbHelper;
     }
 
     private void formatFileSize() throws SQLException {

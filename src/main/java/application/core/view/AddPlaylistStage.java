@@ -1,7 +1,5 @@
 package application.core.view;
 
-import application.core.i18n.DefaultI18nService;
-import application.playlists.DefaultPlaylistService;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,6 +30,8 @@ import static application.TrojandaApplication.SECONDARY_BG_COLOR;
 import static application.TrojandaApplication.SECONDARY_BORDER_COLOR;
 import static application.TrojandaApplication.SECONDARY_HIGHLIGHT_BG_COLOR;
 import static application.TrojandaApplication.SECONDARY_TEXT_COLOR;
+import static application.core.i18n.DefaultI18nService.i18nService;
+import static application.playlists.DefaultPlaylistService.playlistService;
 
 public class AddPlaylistStage extends Stage {
     private double width = 362;
@@ -45,9 +45,6 @@ public class AddPlaylistStage extends Stage {
     private Label info;
     private Button confirmButton;
     private Button cancelButton;
-
-    private DefaultI18nService i18nService = DefaultI18nService.INSTANCE;
-    private DefaultPlaylistService playlistService = DefaultPlaylistService.INSTANCE;
 
     public String getPlaylistName() {
         return playlistName;

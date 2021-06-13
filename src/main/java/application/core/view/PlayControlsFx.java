@@ -1,6 +1,5 @@
 package application.core.view;
 
-import application.core.i18n.DefaultI18nService;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -33,9 +32,9 @@ import java.util.Date;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class PlayControlsFx extends BorderPane {
+import static application.core.i18n.DefaultI18nService.i18nService;
 
-    private final DefaultI18nService i18nService = DefaultI18nService.INSTANCE;
+public class PlayControlsFx extends BorderPane {
 
     private ImageView playPauseImageView;
     private Label playLastLabel;
@@ -54,10 +53,10 @@ public class PlayControlsFx extends BorderPane {
     private Slider volumeSlider;
     private ProgressBar volumeProgressBar;
 
-    static final String sequencePlay = DefaultI18nService.INSTANCE.getMessage("player.playMode.sequencePlay");
-    static final String sequenceRoop = DefaultI18nService.INSTANCE.getMessage("player.playMode.sequenceRoop");
-    static final String singleRoop = DefaultI18nService.INSTANCE.getMessage("player.playMode.singleRoop");
-    static final String randomPlay = DefaultI18nService.INSTANCE.getMessage("player.playMode.randomPlay");
+    static final String sequencePlay = i18nService.getMessage("player.playMode.sequencePlay");
+    static final String sequenceRoop = i18nService.getMessage("player.playMode.sequenceRoop");
+    static final String singleRoop = i18nService.getMessage("player.playMode.singleRoop");
+    static final String randomPlay = i18nService.getMessage("player.playMode.randomPlay");
 
     private String currentPlayMode = randomPlay;
 

@@ -8,8 +8,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import static application.folders.FolderDao.folderDao;
+import static application.core.appconfig.DefaultConfigurationService.configurationService;
+import static application.playlists.PlaylistDao.playlistDao;
+import static application.songs.SongDao.songDao;
+
 public class DefaultDatabaseService extends AbstractDatabaseService {
-    public static final DefaultDatabaseService INSTANCE = new DefaultDatabaseService();
+    public static final DefaultDatabaseService databaseService = new DefaultDatabaseService();
 
     private DefaultDatabaseService() {
         super();

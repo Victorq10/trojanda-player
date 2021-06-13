@@ -1,8 +1,5 @@
 package application.core.view;
 
-import application.core.i18n.DefaultI18nService;
-import application.core.preferences.DefaultPreferencesService;
-import application.songs.DefaultSongService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -33,18 +30,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static application.core.i18n.DefaultI18nService.i18nService;
+import static application.core.preferences.DefaultPreferencesService.preferencesService;
+import static application.songs.DefaultSongService.songService;
+
 public class PreferencesStage extends Stage {
-    private final DefaultSongService musicLibraryService = DefaultSongService.INSTANCE;
-    private final DefaultPreferencesService preferencesService = DefaultPreferencesService.INSTANCE;
     private double width = 700;
     private double height = 400;
     private boolean confirm;
     private List<CheckBox> checkboxList = new ArrayList<>();
     private VBox vWrapCheckBoxList;
     Stage primaryStage;  // Main stage object
-
-    private DefaultI18nService i18nService = DefaultI18nService.INSTANCE;
-
 
     public boolean isConfirm() {
         return confirm;
@@ -184,7 +180,7 @@ public class PreferencesStage extends Stage {
                 }
             }
             if (checkboxList.isEmpty()) {
-                musicLibraryService.removeMediaLibrary();
+                songService.removeMediaLibrary();
             }
         }
         this.setConfirm(true);

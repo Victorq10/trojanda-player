@@ -7,10 +7,11 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class DefaultPreferencesService {
-    public static final DefaultPreferencesService INSTANCE = new DefaultPreferencesService();
+import static application.core.preferences.PreferencesDaoXml.preferencesDaoXml;
 
-    PreferencesDaoXml preferencesDaoXml = PreferencesDaoXml.INSTANCE;
+public class DefaultPreferencesService {
+    public static final DefaultPreferencesService preferencesService = new DefaultPreferencesService();
+
     Preferences preferences;
 
     private Preferences getPreferences() {

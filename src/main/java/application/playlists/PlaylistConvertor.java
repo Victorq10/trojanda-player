@@ -1,12 +1,12 @@
 package application.playlists;
 
-import application.core.utils.DbHelper;
+import application.core.database.DbHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PlaylistConvertor implements DbHelper.Convertor<ResultSet, PlaylistModel> {
-    public static final PlaylistConvertor INSTANCE = new PlaylistConvertor();
+    public static final PlaylistConvertor playlistConvertor = new PlaylistConvertor();
 
     private PlaylistConvertor() {
     }

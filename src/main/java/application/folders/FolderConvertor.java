@@ -1,12 +1,12 @@
 package application.folders;
 
-import application.core.utils.DbHelper;
+import application.core.database.DbHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FolderConvertor implements DbHelper.Convertor<ResultSet, FolderModel> {
-    public static final FolderConvertor INSTANCE = new FolderConvertor();
+    public static final FolderConvertor folderConvertor = new FolderConvertor();
 
     private FolderConvertor() {}
 

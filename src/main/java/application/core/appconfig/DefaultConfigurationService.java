@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import static application.core.appconfig.AppConfigDaoXml.appConfigDaoXml;
+
 /**
  * Three level of configuration:<br>
  * 1) Application level of configuration.<br>
@@ -20,28 +22,27 @@ import java.util.Properties;
  * <p><b>Preferences.xml</b> — it is stored in the DataDir and can be changed by user by UI Preferences dialog.</p>
  */
 public class DefaultConfigurationService {
-    public static DefaultConfigurationService INSTANCE;
-    private AppConfigDaoXml configDaoXml = AppConfigDaoXml.INSTANCE;
+    public static DefaultConfigurationService configurationService;
 
     private AppConfig appConfig;
     private Properties dbProperties = null;
     private String dbName;
 
     static {
-        DefaultConfigurationService.INSTANCE = new DefaultConfigurationService();
+        DefaultConfigurationService.configurationService = new DefaultConfigurationService();
         loadConfiguration();
     }
 
     private AppConfig getAppConfig() {
         // NOTE: Maybe using '/Configuration.properties' is better
         if (appConfig == null) {
-            appConfig = configDaoXml.readAppConfig();
+            appConfig = appConfigDaoXml.readAppConfig();
         }
         return appConfig;
     }
 
     private void saveAppConfig() {
-        configDaoXml.writeAppConfig(getAppConfig());
+        appConfigDaoXml.writeAppConfig(getAppConfig());
     }
 
     public Path getDataDir() {
@@ -54,11 +55,11 @@ public class DefaultConfigurationService {
     }
 
     private static final void loadConfiguration() {
-        INSTANCE.dbProperties = new Properties();
+        configurationService.dbProperties = new Properties();
         InputStream dbPropInputStream = TrojandaApplication.class.getResourceAsStream("/Configuration.properties");
         try {
-            INSTANCE.dbProperties.load(dbPropInputStream);
-            INSTANCE.dbName = INSTANCE.dbProperties.getProperty("dbName", "MusicLibraryDb");
+            configurationService.dbProperties.load(dbPropInputStream);
+            configurationService.dbName = configurationService.dbProperties.getProperty("dbName", "MusicLibraryDb");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

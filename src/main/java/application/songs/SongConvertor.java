@@ -1,13 +1,13 @@
 package application.songs;
 
 import application.folders.FolderModel;
-import application.core.utils.DbHelper;
+import application.core.database.DbHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SongConvertor implements DbHelper.Convertor<ResultSet, SongModel> {
-    public static final SongConvertor INSTANCE = new SongConvertor();
+    public static final SongConvertor songConvertor = new SongConvertor();
 
     private SongConvertor() {}
 

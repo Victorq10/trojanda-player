@@ -8,7 +8,6 @@ import application.archive.dto.PlaylistList;
 import application.songs.SongInfo;
 import application.core.appconfig.AppConfig;
 import application.core.preferences.Preferences;
-import application.core.appconfig.DefaultConfigurationService;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.NoTypePermission;
 import com.thoughtworks.xstream.security.NullPermission;
@@ -22,8 +21,9 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static application.core.appconfig.DefaultConfigurationService.configurationService;
+
 public abstract class AbstractDaoXml<T> {
-    DefaultConfigurationService configurationService = DefaultConfigurationService.INSTANCE;
 
     protected static XStream xstream;
 

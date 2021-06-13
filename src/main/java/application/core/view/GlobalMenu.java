@@ -1,13 +1,12 @@
 package application.core.view;
 
-import application.core.i18n.DefaultI18nService;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-public class GlobalMenu extends ContextMenu {
-    public static GlobalMenu INSTANCE = new GlobalMenu();
+import static application.core.i18n.DefaultI18nService.i18nService;
 
-    private DefaultI18nService i18nService = DefaultI18nService.INSTANCE;
+public class GlobalMenu extends ContextMenu {
+    public static GlobalMenu globalMenu = new GlobalMenu();
 
     private GlobalMenu() {
         MenuItem settingMenuItem = new MenuItem(i18nService.getMessage("menu.settings"));

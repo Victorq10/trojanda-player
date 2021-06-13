@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 
 public class DefaultI18nService {
-    public static final DefaultI18nService INSTANCE = new DefaultI18nService();
+    public static final DefaultI18nService i18nService = new DefaultI18nService();
     private static Locale ukLocale;
     private static Locale zhCNLocale;
 

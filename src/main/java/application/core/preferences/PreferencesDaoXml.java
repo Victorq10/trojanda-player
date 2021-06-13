@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class PreferencesDaoXml extends AbstractDaoXml<Preferences> {
-    public static final PreferencesDaoXml INSTANCE = new PreferencesDaoXml();
+    public static final PreferencesDaoXml preferencesDaoXml = new PreferencesDaoXml();
 
     File preferencesXmlFile = new File("Preferences.xml");
 

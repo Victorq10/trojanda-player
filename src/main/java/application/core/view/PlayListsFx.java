@@ -1,7 +1,5 @@
 package application.core.view;
 
-import application.core.i18n.DefaultI18nService;
-import application.playlists.DefaultPlaylistService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -29,10 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PlayListsFx extends BorderPane {
+import static application.core.i18n.DefaultI18nService.i18nService;
+import static application.core.view.GlobalMenu.globalMenu;
+import static application.playlists.DefaultPlaylistService.playlistService;
 
-    private final DefaultI18nService i18nService = DefaultI18nService.INSTANCE;
-    private final DefaultPlaylistService playlistService = DefaultPlaylistService.INSTANCE;
+public class PlayListsFx extends BorderPane {
 
     private Stage primaryStage;
 
@@ -201,7 +200,6 @@ public class PlayListsFx extends BorderPane {
 
     private void showAddGroupStage_onMouseClick(MouseEvent e) {
         if (e.getButton() == MouseButton.SECONDARY) {
-            GlobalMenu globalMenu = GlobalMenu.INSTANCE;
             addPlaylistLabel.setContextMenu(globalMenu);
             globalMenu.show(addPlaylistLabel, Side.RIGHT, 0, 0);
         } else if (e.getButton() == MouseButton.PRIMARY) {

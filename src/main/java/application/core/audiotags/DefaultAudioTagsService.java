@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DefaultAudioTagsService {
-    public static final DefaultAudioTagsService INSTANCE = new DefaultAudioTagsService();
+    public static final DefaultAudioTagsService audioTagsService = new DefaultAudioTagsService();
 
     public SongInfo getSongInfo(Path songPath) {
         SongInfo songInfo = null;

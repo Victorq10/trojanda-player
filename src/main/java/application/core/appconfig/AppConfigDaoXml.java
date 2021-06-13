@@ -5,7 +5,7 @@ import application.core.AbstractDaoXml;
 import java.io.File;
 
 public class AppConfigDaoXml extends AbstractDaoXml<AppConfig> {
-    public static final AppConfigDaoXml INSTANCE = new AppConfigDaoXml();
+    public static final AppConfigDaoXml appConfigDaoXml = new AppConfigDaoXml();
 
     File configXmlFile = new File("AppConfig.xml");
 

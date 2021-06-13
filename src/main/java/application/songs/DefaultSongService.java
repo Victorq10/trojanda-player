@@ -1,10 +1,7 @@
 package application.songs;
 
-import application.folders.FolderDao;
-import application.core.audiotags.DefaultAudioTagsService;
-import application.core.preferences.DefaultPreferencesService;
-import application.folders.FolderModel;
 import application.core.utils.LogTime;
+import application.folders.FolderModel;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -18,14 +15,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static application.core.audiotags.DefaultAudioTagsService.audioTagsService;
+import static application.core.preferences.DefaultPreferencesService.preferencesService;
+import static application.folders.FolderDao.folderDao;
+import static application.songs.SongDao.songDao;
+
 
 public class DefaultSongService {
-    public static final DefaultSongService INSTANCE = new DefaultSongService();
-
-    private DefaultAudioTagsService audioTagsService = DefaultAudioTagsService.INSTANCE;
-    private DefaultPreferencesService preferencesService = DefaultPreferencesService.INSTANCE;
-    private SongDao songDao = SongDao.INSTANCE;
-    private FolderDao folderDao = FolderDao.INSTANCE;
+    public static final DefaultSongService songService = new DefaultSongService();
 
     private List<String> supportedFileTypes = List.of("mp3", "ogg", "opus", "m4a");
 

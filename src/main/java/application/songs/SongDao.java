@@ -1,7 +1,7 @@
 package application.songs;
 
 import application.core.AbstractDao;
-import application.core.utils.DbHelper;
+import application.core.database.DbHelper;
 import application.core.utils.LogTime;
 
 import java.sql.ResultSet;
@@ -10,9 +10,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static application.songs.SongConvertor.songConvertor;
+
 public class SongDao extends AbstractDao<SongModel> {
-    public static final SongDao INSTANCE = new SongDao();
-    private final SongConvertor songConvertor = SongConvertor.INSTANCE;
+    public static final SongDao songDao = new SongDao();
 
     private SongDao() {
         super("SONGS");

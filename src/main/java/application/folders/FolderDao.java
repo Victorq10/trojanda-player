@@ -1,7 +1,7 @@
 package application.folders;
 
 import application.core.AbstractDao;
-import application.core.utils.DbHelper;
+import application.core.database.DbHelper;
 
 import java.nio.file.Path;
 import java.sql.ResultSet;
@@ -9,9 +9,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import static application.folders.FolderConvertor.folderConvertor;
+
 public class FolderDao extends AbstractDao<FolderModel> {
-    public static final FolderDao INSTANCE = new FolderDao();
-    private final FolderConvertor folderConvertor = FolderConvertor.INSTANCE;
+    public static final FolderDao folderDao = new FolderDao();
 
     private FolderDao() {
         super("FOLDERS");

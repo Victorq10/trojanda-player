@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static application.playlists.PlaylistDao.playlistDao;
+
 public class DefaultPlaylistService {
-    public static final DefaultPlaylistService INSTANCE = new DefaultPlaylistService();
-    private PlaylistDao playlistDao = PlaylistDao.INSTANCE;
+    public static final DefaultPlaylistService playlistService = new DefaultPlaylistService();
 
     public List<String> getPlaylistNames() {
         List<PlaylistModel> playlists;

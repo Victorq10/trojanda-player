@@ -1,9 +1,8 @@
 package application.playlists;
 
 import application.core.AbstractDao;
-import application.songs.SongConvertor;
+import application.core.database.DbHelper;
 import application.songs.SongModel;
-import application.core.utils.DbHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,10 +11,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static application.playlists.PlaylistConvertor.playlistConvertor;
+import static application.songs.SongConvertor.songConvertor;
+
 public class PlaylistDao extends AbstractDao<PlaylistModel> {
-    public static final PlaylistDao INSTANCE = new PlaylistDao();
-    private final PlaylistConvertor playlistConvertor = PlaylistConvertor.INSTANCE;
-    private final SongConvertor songConvertor = SongConvertor.INSTANCE;
+    public static final PlaylistDao playlistDao = new PlaylistDao();
 
     private PlaylistDao() {
         super("PLAYLIST");

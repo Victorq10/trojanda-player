@@ -1,7 +1,6 @@
 package application.core.view;
 
 import application.songs.SongInfo;
-import application.core.i18n.DefaultI18nService;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -42,9 +41,9 @@ import javafx.util.Duration;
 
 import java.util.function.Consumer;
 
+import static application.core.i18n.DefaultI18nService.i18nService;
 
 public class MediaTableFx extends BorderPane {
-    private final DefaultI18nService i18nService = DefaultI18nService.INSTANCE;
 
     private Stage primaryStage;
     private TableColumn<SongInfo, String> musicName;
