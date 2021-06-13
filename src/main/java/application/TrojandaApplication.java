@@ -1,14 +1,14 @@
 package application;
 
-import application.dto.SongInfo;
-import application.playback.MediaPlayerPlayback;
-import application.services.impl.DefaultConfigurationService;
-import application.services.impl.DefaultDatabaseService;
-import application.services.impl.DefaultI18nService;
-import application.services.impl.DefaultSongService;
-import application.ui.MediaTableFx;
-import application.ui.PlayControlsFx;
-import application.ui.PlayListsFx;
+import application.songs.SongInfo;
+import application.core.playback.MediaPlayerPlayback;
+import application.core.appconfig.DefaultConfigurationService;
+import application.core.database.DefaultDatabaseService;
+import application.core.i18n.DefaultI18nService;
+import application.songs.DefaultSongService;
+import application.core.view.MediaTableFx;
+import application.core.view.PlayControlsFx;
+import application.core.view.PlayListsFx;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -103,8 +103,8 @@ public class TrojandaApplication extends Application {
 //        rootBorderPane.setCenter(splitPane);
         rootBorderPane.setBottom(getBottomPane());
         rootBorderPane.setBorder(new Border(new BorderStroke(Color.rgb(110, 110, 111), BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
-        // StackPane всієї основної сцени (основного інтерфейсу) розміщується внизу. Інформаційна підказка для 
-        // перемикання режиму відтворення може бути динамічно додана у верхню частину stageStackPane, а підказкова 
+        // StackPane всієї основної сцени (основного інтерфейсу) розміщується внизу. Інформаційна підказка для
+        // перемикання режиму відтворення може бути динамічно додана у верхню частину stageStackPane, а підказкова
         // інформація про режим відтворення у верхній частині може бути видалена після завершення відображення.
         rootStackPane = new StackPane();
         rootStackPane.getChildren().addAll(rootBorderPane);

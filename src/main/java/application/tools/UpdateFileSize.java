@@ -1,9 +1,9 @@
 package application.tools;
 
-import application.dao.SongDao;
-import application.models.SongModel;
-import application.services.impl.DefaultDatabaseService;
-import application.utils.DbHelper;
+import application.songs.SongDao;
+import application.songs.SongModel;
+import application.core.database.DefaultDatabaseService;
+import application.core.utils.DbHelper;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class UpdateFileSize {
             DefaultDatabaseService.INSTANCE.stop();
         }
     }
-    
+
     DbHelper db() {
         return DefaultDatabaseService.INSTANCE.dbHelper;
     }
