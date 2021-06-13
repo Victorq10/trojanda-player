@@ -12,8 +12,14 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
- * <p>Configuration.properties — it can contain not editable configuration as image resources, paddings.</p>
- * <p>AppConfig — it is stored in the DataDir and can be changed by user </p>
+ * Three level of configuration:<br>
+ * 1) Application level of configuration.<br>
+ * 2) User level of configuration.<br>
+ * 3) Application preferences.<br><br>
+ * 
+ * <p><b>Configuration.properties</b> — it can contain NOT editable configuration as image resources, paddings.</p>
+ * <p><b>AppConfig.xml</b> — it is stored in the DataDir and can be changed by user by editing config file.</p>
+ * <p><b>Preferences.xml</b> — it is stored in the DataDir and can be changed by user by UI Preferences dialog.</p>
  */
 public class DefaultConfigurationService {
     public static DefaultConfigurationService INSTANCE;

@@ -44,11 +44,11 @@ public class DbHelper {
     public SqlQuery createSqlQuery(String sql, Map<String, Object> parameters) {
         return new SqlQuery(sql, parameters);
     }
-    
+
     public SqlQuery createSqlQuery(String sql) {
         return new SqlQuery(sql);
     }
-    
+
 
 
     // ==================================== //
@@ -81,7 +81,8 @@ public class DbHelper {
                 "(?:\\?|:)([A-Za-z0-9_]+)"
         );
 
-        public SqlQuery() {
+        private SqlQuery() { // can use private as it is used in the nested class
+            // for inheritance of UpdateQuery, InsertQuery, DeleteQuery
         }
 
         public SqlQuery(String sql, Map<String, Object> parameters) {
@@ -192,10 +193,10 @@ public class DbHelper {
             applyParams(preparedStatement);
             return preparedStatement;
         }
-        
+
 /*
         public boolean executeQuery() {
-            
+
         }
 
         public <T> List<T> selectQuery(Convertor<ResultSet, T> converter) throws SQLException {
@@ -303,8 +304,6 @@ public class DbHelper {
             return params.stream().filter(p -> pkNames.contains(p.name)).collect(Collectors.toList());
         }
     }
-    
-    
 
     public boolean executeQuery(String sql) throws SQLException {
         DbHelper.SqlQuery sqlQuery = new SqlQuery(sql);
