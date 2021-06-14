@@ -1,4 +1,4 @@
-package application.core.preferences;
+package application.core.appconfig;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static application.core.preferences.PreferencesDaoXml.preferencesDaoXml;
+import static application.core.appconfig.PreferencesDaoXml.preferencesDaoXml;
 
 public class PreferencesService {
     public static final PreferencesService preferencesService = new PreferencesService();

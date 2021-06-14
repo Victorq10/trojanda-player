@@ -1,4 +1,4 @@
-package application.core.preferences;
+package application.core.appconfig;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;

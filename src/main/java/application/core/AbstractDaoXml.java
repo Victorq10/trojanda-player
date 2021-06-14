@@ -7,7 +7,7 @@ import application.archive.dto.Playlist;
 import application.archive.dto.PlaylistList;
 import application.songs.SongInfo;
 import application.core.appconfig.AppConfig;
-import application.core.preferences.Preferences;
+import application.core.appconfig.Preferences;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.NoTypePermission;
 import com.thoughtworks.xstream.security.NullPermission;
@@ -67,7 +67,7 @@ public abstract class AbstractDaoXml<T> {
             xstream.allowTypeHierarchy(Collection.class);
 //        xstream.allowTypes(new Class[]{ChoseFolderList.class, ChoseFolder.class});
             xstream.allowTypesByWildcard(new String[]{
-                    "application.dto.**"
+                    "application.core.appconfig.**"
             });
 //        xstream.alias("ChoseFolderList", ChoseFolderList.class);
 //        xstream.addImplicitCollection(ChoseFolderList.class, "choseFolders");

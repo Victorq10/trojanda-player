@@ -1,4 +1,4 @@
-package application.core.preferences;
+package application.core.appconfig;
 
 import application.core.AbstractDaoXml;
 

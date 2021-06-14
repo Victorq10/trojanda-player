@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static application.core.i18n.I18nService.i18nService;
-import static application.core.preferences.PreferencesService.preferencesService;
+import static application.core.appconfig.PreferencesService.preferencesService;
 import static application.songs.SongService.songService;
 
 public class PreferencesStage extends Stage {

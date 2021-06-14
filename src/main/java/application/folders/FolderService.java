@@ -1,9 +1,5 @@
 package application.folders;
 
-import application.core.utils.LogTime;
-import application.songs.SongInfo;
-import application.songs.SongModel;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -11,15 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static application.core.audiotags.AudioTagsService.audioTagsService;
-import static application.core.preferences.PreferencesService.preferencesService;
 import static application.folders.FolderDao.folderDao;
-import static application.songs.SongDao.songDao;
 
 
 public class FolderService {

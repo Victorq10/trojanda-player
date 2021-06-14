@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static application.core.audiotags.AudioTagsService.audioTagsService;
-import static application.core.preferences.PreferencesService.preferencesService;
+import static application.core.appconfig.PreferencesService.preferencesService;
 import static application.folders.FolderService.folderService;
 import static application.songs.SongDao.songDao;
 
