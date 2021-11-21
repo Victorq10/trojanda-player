@@ -60,7 +60,7 @@ public abstract class METADATA {
         }
     }
 
-    Class modelClass;
+    Class<?> modelClass;
     String tableName;
     List<String> pkNames = new ArrayList<>();
     Map<String, COLUMN> fields = new LinkedHashMap<>();
