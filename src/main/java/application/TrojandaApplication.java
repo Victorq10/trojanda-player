@@ -101,6 +101,10 @@ public class TrojandaApplication extends Application {
         // перемикання режиму відтворення може бути динамічно додана у верхню частину stageStackPane, а підказкова
         // інформація про режим відтворення у верхній частині може бути видалена після завершення відображення.
         rootStackPane = new StackPane();
+        rootStackPane.getStylesheets().add("css/LabelScaleStyle.css");
+        rootStackPane.getStylesheets().add("css/TableViewStyle.css");
+        rootStackPane.getStylesheets().add("css/SliderAndProgressBar.css");
+        rootStackPane.getStylesheets().add("css/ScrollPane.css");
         rootStackPane.getChildren().addAll(rootBorderPane);
 
         Scene scene = new Scene(rootStackPane, primaryStageMinWidth, primaryStageMinHeight);
@@ -280,7 +284,7 @@ public class TrojandaApplication extends Application {
             }
         }
 
-        ChangeListener currentTimePropertyChangeListener = new ChangeListener<Duration>() {
+        ChangeListener<Duration> currentTimePropertyChangeListener = new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 currentTimePropertyChangeListener(observable, oldValue, newValue);
