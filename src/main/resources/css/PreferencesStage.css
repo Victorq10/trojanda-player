@@ -1,0 +1,48 @@
+#preferences-stage .scroll-pane {
+	-fx-background-color: transparent;
+	-fx-background:WHITE;
+}
+
+#preferences-stage .scroll-bar:vertical {
+	-fx-pref-width: 8;
+	-fx-background-color: transparent;
+}
+
+#preferences-stage .scroll-bar:vertical .thumb {
+	-fx-background-color: #C8C9CC;
+	-fx-background-insets: 0;
+	-fx-background-radius: 2em;
+}
+#preferences-stage .scroll-bar:vertical .thumb:hover {
+	-fx-background-color: #ADAFB2;
+}
+#preferences-stage .scroll-bar:vertical .track{
+	-fx-background-color:transparent;
+}
+#preferences-stage .scroll-bar:horizontal .track{
+	-fx-background-color:transparent;
+}
+
+#preferences-stage .scroll-bar .increment-arrow {
+	visibility: hidden;
+	-fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
+}
+
+#preferences-stage .scroll-bar .decrement-arrow {
+	visibility: hidden;
+	-fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
+}
+
+#preferences-stage .scroll-bar .increment-button {
+	visibility: hidden;
+	-fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
+}
+
+#preferences-stage .scroll-bar .decrement-button {
+	visibility: hidden;
+	-fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
+}
+#preferences-stage .scroll-pane.corner{
+	visibility: hidden;
+	-fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
+}

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 import static application.core.i18n.I18nService.i18nService;
 import static application.core.view.GlobalMenu.globalMenu;
-import static application.playlists.PlaylistService.playlistService;
+import static application.core.playlists.PlaylistService.playlistService;
 
 public class PlayListsFx extends BorderPane {
 
@@ -41,6 +41,7 @@ public class PlayListsFx extends BorderPane {
 
 
     public PlayListsFx(Stage primaryStage) {
+        setId("playlist");
         this.primaryStage = primaryStage;
 
         // My music label
@@ -71,24 +72,23 @@ public class PlayListsFx extends BorderPane {
         // Set mouse events
         addPlaylistLabel.setOnMouseClicked(this::showAddGroupStage_onMouseClick);
 
-        Pane content = new Pane();
-        content.getChildren().addAll(playlistsVBox);
+        Pane playlistContentPane = new Pane();
+        playlistContentPane.getChildren().addAll(playlistsVBox);
 
-        ScrollPane scrollpane = new ScrollPane();
-        scrollpane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollpane.setPadding(new Insets(0, 5, 0, 0));
-        scrollpane.setContent(content);
-        scrollpane.setBorder(new Border(new BorderStroke(
+        ScrollPane playlistScrollPane = new ScrollPane();
+        playlistScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        playlistScrollPane.setPadding(new Insets(0, 5, 0, 0));
+        playlistScrollPane.setContent(playlistContentPane);
+        playlistScrollPane.setBorder(new Border(new BorderStroke(
                 null, Color.rgb(221, 221, 225), Color.rgb(221, 221, 225), null,
                 null, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, null,
                 null, new BorderWidths(0, 1, 0, 0), null)));
-        scrollpane.getStylesheets().add("css/ScrollPane.css");
 
         HBox userInfoHBox = createUserInfoHBox();
 
         this.setBackground(new Background(new BackgroundFill(Color.rgb(243, 243, 245), null, null)));
         this.setPadding(new Insets(0, 0, 0, 5));
-        this.setCenter(scrollpane);
+        this.setCenter(playlistScrollPane);
         this.setBottom(userInfoHBox);
     }
 
@@ -207,7 +207,7 @@ public class PlayListsFx extends BorderPane {
             if (beforeDialogShowListener != null) {
                 beforeDialogShowListener.run();
             }
-            AddPlaylistStage addPlaylistStage = new AddPlaylistStage(primaryStage);
+            AddPlaylistWindow addPlaylistStage = new AddPlaylistWindow(primaryStage);
             addPlaylistStage.showAndWait();
             // Determine whether the OK button is successfully pressed, and save the playlist after success
             if (addPlaylistStage.isConfirm()) {

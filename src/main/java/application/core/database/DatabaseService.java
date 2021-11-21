@@ -1,17 +1,17 @@
 package application.core.database;
 
-import application.folders.FolderModel;
-import application.songs.SongModel;
+import application.core.folders.FolderModel;
+import application.core.songs.SongModel;
 
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import static application.folders.FolderDao.folderDao;
-import static application.core.appconfig.ConfigurationService.configurationService;
-import static application.playlists.PlaylistDao.playlistDao;
-import static application.songs.SongDao.songDao;
+import static application.core.folders.FolderDao.folderDao;
+import static application.core.config.ConfigurationService.configurationService;
+import static application.core.playlists.PlaylistDao.playlistDao;
+import static application.core.songs.SongDao.songDao;
 
 public class DatabaseService extends AbstractDatabaseService {
     public static final DatabaseService databaseService = new DatabaseService();

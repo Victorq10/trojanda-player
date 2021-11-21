@@ -4,7 +4,7 @@ import application.core.playback.MediaPlayerPlayback;
 import application.core.view.MediaTableFx;
 import application.core.view.PlayControlsFx;
 import application.core.view.PlayListsFx;
-import application.songs.SongInfo;
+import application.core.songs.SongInfo;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -37,7 +37,7 @@ import java.util.Random;
 
 import static application.core.database.DatabaseService.databaseService;
 import static application.core.i18n.I18nService.i18nService;
-import static application.songs.SongService.songService;
+import static application.core.songs.SongService.songService;
 
 public class TrojandaApplication extends Application {
 
@@ -96,6 +96,7 @@ public class TrojandaApplication extends Application {
 //        rootBorderPane.setCenter(splitPane);
         rootBorderPane.setBottom(getBottomPane_PlayControlsFx());
         rootBorderPane.setBorder(new Border(new BorderStroke(Color.rgb(110, 110, 111), BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
+
         // StackPane всієї основної сцени (основного інтерфейсу) розміщується внизу. Інформаційна підказка для
         // перемикання режиму відтворення може бути динамічно додана у верхню частину stageStackPane, а підказкова
         // інформація про режим відтворення у верхній частині може бути видалена після завершення відображення.
@@ -133,9 +134,7 @@ public class TrojandaApplication extends Application {
         mediaTableFx.setAfterDialogShowListener(listeners::afterDialogShowListener);
         mediaTableFx.setPreferencesCloseListener(listeners::preferencesClosedListener);
 
-//        if (play.songsList != null && play.songsList.size() > 0) {
-            mediaTableFx.setSongsList(play.songsList);
-//        }
+        mediaTableFx.setSongsList(play.songsList);
         return mediaTableFx;
     }
 

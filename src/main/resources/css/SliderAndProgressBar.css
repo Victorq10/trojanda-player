@@ -1,6 +1,6 @@
 /*The following is the style setting of the horizontal slider*/
 /*thumb*/
-.slider .thumb {
+#play-controls .slider .thumb {
     -fx-pref-height: 16;
     -fx-min-height: 16;
     -fx-max-height: 16;
@@ -19,7 +19,7 @@
     -fx-border-image-insets: 0, 0, 0, 0;
 }
 
-.slider .track {
+#play-controls .slider .track {
     -fx-background-color: null;
     -fx-min-height: 16;
     -fx-max-height: 16;
@@ -27,17 +27,17 @@
 }
 
 /*The following is the progress bar setting behind the drag bar*/
-.progress-bar > .bar {
+#play-controls .progress-bar > .bar {
     -fx-pref-height: 2;
     -fx-min-height: 2;
     -fx-background-insets: 0;
 }
 
-.progress-bar:determinate > .bar {
+#play-controls .progress-bar:determinate > .bar {
     -fx-background-color: #D13A3C;
 }
 
-.progress-bar > .track {
+#play-controls .progress-bar > .track {
     -fx-min-height: 2;
     -fx-background-color: #E5E5E5;
 }

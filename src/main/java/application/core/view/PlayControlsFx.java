@@ -3,6 +3,7 @@ package application.core.view;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -37,6 +38,7 @@ import static application.core.i18n.I18nService.i18nService;
 public class PlayControlsFx extends BorderPane {
 
     private ImageView playPauseImageView;
+    private Label albumPictureLabel;
     private Label playLastLabel;
     private Label playLabel;
     private Label playNextLabel;
@@ -53,6 +55,17 @@ public class PlayControlsFx extends BorderPane {
     private Slider volumeSlider;
     private ProgressBar volumeProgressBar;
 
+    BorderPane parent;
+    Node left;
+    Node center;
+
+    boolean isPlayed = false; // TODO
+    double totalDurationSeconds = 100; // TODO: mediaPlayer.getTotalDuration().toSeconds();
+
+    boolean isMute = false;
+    double currentVolume = 100;
+
+
     static final String sequencePlay = i18nService.getMessage("player.playMode.sequencePlay");
     static final String sequenceRoop = i18nService.getMessage("player.playMode.sequenceRoop");
     static final String singleRoop = i18nService.getMessage("player.playMode.singleRoop");
@@ -62,53 +75,39 @@ public class PlayControlsFx extends BorderPane {
 
 
     public PlayControlsFx() {
-        HBox playButtonsHBox = createPlayButtonsHBox();
+        setId("play-controls");
+
+        createAlbumPictureLabel();
+        createPlayLast();
+        createPlayLabel();
+        createPlayNextLabel();
+
+        HBox playButtonsHBox = createPlayButtonsHBox(albumPictureLabel, playLastLabel, playLabel, playNextLabel);
         BorderPane songInfoAndProgressBarBorderPane = createSongInfoAndProgressBarBorderPane();
         HBox volumeAndOtherControlsHBox = createVolumeAndOtherControlsHBox();
 
         setPrefHeight(60);
+
         setLeft(playButtonsHBox);
         setCenter(songInfoAndProgressBarBorderPane);
         setRight(volumeAndOtherControlsHBox);
+
         setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255), null, null)));
         setBorder(new Border(new BorderStroke(Color.rgb(228, 228, 231), null, null, null,
                 BorderStrokeStyle.SOLID, null, null, null, null, new BorderWidths(1, 0, 0, 0), null)));
     }
 
-    private HBox createPlayButtonsHBox() {
-        // Album picture
-        Label albumLabel = createAlbumLabel();
-
-        // Previous label
-        playLastLabel = createPlayLast();
-
-        // Start playing label
-        playLabel = createPlayLabel();
-
-        // Next label
-        playNextLabel = createPlayNextLabel();
-
+    private HBox createPlayButtonsHBox(Node...children) {
         HBox playButtonsHBox = new HBox(20);
         playButtonsHBox.setAlignment(Pos.CENTER);
         playButtonsHBox.setPadding(new Insets(0, 29, 0, 0));
 //		leftHBox.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
-        playButtonsHBox.getChildren().addAll(albumLabel, playLastLabel, playLabel, playNextLabel);
-
+        playButtonsHBox.getChildren().addAll(children);
         return playButtonsHBox;
     }
 
-    BorderPane parent;
-    Node left;
-    Node center;
-
-    private Label createAlbumLabel() {
-        ImageView albumImageView = new ImageView("image/DefaultAlbumWhiteBackground.png");
-        albumImageView.setFitHeight(58);
-        albumImageView.setFitWidth(58);
-        Label albumLabel = new Label("", albumImageView);
-        albumLabel.setBorder(new Border(new BorderStroke(Color.rgb(242, 242, 242), BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
-        albumLabel.getStylesheets().add("css/LabelScaleStyle.css");
-        albumLabel.setOnMouseClicked(e -> {
+    private void createAlbumPictureLabel() {
+        albumPictureLabel = createBtnLabel("", "image/DefaultAlbumWhiteBackground.png", 58, 58, e -> {
             Pane pane = new Pane(new Label("Just a test."));
             pane.setPrefWidth(128);
             pane.setPrefHeight(128);
@@ -130,38 +129,21 @@ public class PlayControlsFx extends BorderPane {
                 parent.setCenter(center);
                 parent = null;
             }
-
         });
-        return albumLabel;
+        albumPictureLabel.setBorder(new Border(new BorderStroke(Color.rgb(242, 242, 242), BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
     }
 
-    private Label createPlayLast() {
-        ImageView palyLastImageView = new ImageView("image/PlaybackLast.png");
-        palyLastImageView.setFitHeight(30);
-        palyLastImageView.setFitWidth(30);
-        Label playLastLabel = new Label("", palyLastImageView);
-        playLastLabel.setPrefWidth(30);
-        playLastLabel.setPrefHeight(30);
-        playLastLabel.getStylesheets().add("css/LabelScaleStyle.css");
-//		labPlayLast.setPadding(new Insets(10,10,10,20));
-        playLastLabel.setOnMouseClicked(e -> {
+    private void createPlayLast() {
+        playLastLabel = createBtnLabel("", "image/PlaybackLast.png", 30, 30, e -> {
             if (playPreviousListener != null) {
                 playPreviousListener.run();
-            } }
-        );
-        return playLastLabel;
+            }
+        });
     }
 
-    private Label createPlayLabel() {
-        playPauseImageView = new ImageView("image/PlaybackPlay.png");
-        playPauseImageView.setFitHeight(32);
-        playPauseImageView.setFitWidth(32);
-        Label playLabel = new Label("", playPauseImageView);
-        playLabel.setPrefWidth(32);
-        playLabel.setPrefHeight(32);
-        playLabel.getStylesheets().add("css/LabelScaleStyle.css");
-        playLabel.setOnMouseClicked(this::playStopListener);
-        return playLabel;
+    private void createPlayLabel() {
+        playPauseImageView = createImage("image/PlaybackPlay.png", 32, 32);
+        playLabel = createBtnLabel("", playPauseImageView, 32, 32, this::playStopListener);
     }
 
     public final void playStopListener(MouseEvent e) {
@@ -179,21 +161,11 @@ public class PlayControlsFx extends BorderPane {
         }
     }
 
-    private Label createPlayNextLabel() {
-        ImageView playNextImageView = new ImageView("image/PlaybackNext.png");
-        playNextImageView.setFitHeight(30);
-        playNextImageView.setFitWidth(30);
-        Label playNextLabel = new Label("", playNextImageView);
-        playNextLabel.setPrefWidth(30);
-        playNextLabel.setPrefHeight(30);
-        playNextLabel.getStylesheets().add("css/LabelScaleStyle.css");
-        playNextLabel.setOnMouseClicked(e -> {
-            if (playNextListener != null) {
+    private void createPlayNextLabel() {
+        playNextLabel = createBtnLabel("", "image/PlaybackNext.png", 30, 30, e -> {
+            if (playNextListener != null)
                 playNextListener.run();
-            } }
-        );
-
-        return playNextLabel;
+        });
     }
 
     private BorderPane createSongInfoAndProgressBarBorderPane() {
@@ -261,18 +233,13 @@ public class PlayControlsFx extends BorderPane {
         return songCurrentTimeAndTotalTimeHBox;
     }
 
-    boolean isPlayed = false; // TODO
-    double totalDurationSeconds = 100; // TODO: mediaPlayer.getTotalDuration().toSeconds();
-
     private StackPane createSongProgressBarStackPane() {
         // Play progress bar
         songProgressBar = new ProgressBar();
         songProgressBar.setProgress(0);
-        songProgressBar.getStylesheets().add("css/SliderAndProgressBar.css");
 
         // Play slider
         songSlider = new Slider();
-        songSlider.getStylesheets().add("css/SliderAndProgressBar.css");
         songSlider.setOnMouseReleased(e -> {
             if (isPlayed) {
                 if (songSlider.isFocused()) {
@@ -332,8 +299,6 @@ public class PlayControlsFx extends BorderPane {
         return volumeAndOtherControlsHBox;
     }
 
-    boolean isMute = false;
-    double currentVolume = 100;
     private HBox createVolumeControls() {
         // Volume icon
         ImageView soundImageView = new ImageView("image/SoundVolume.png");
@@ -362,13 +327,11 @@ public class PlayControlsFx extends BorderPane {
         volumeSlider.setValue(0.05);
 //		volumeSlider.setMajorTickUnit(0.01);// 每前进一格，增加多少的值
         volumeSlider.setPrefWidth(100);
-        volumeSlider.getStylesheets().add("css/SliderAndProgressBar.css");
 
         // Volume progress bar
         volumeProgressBar = new ProgressBar();
         volumeProgressBar.setProgress(0.05);
         volumeProgressBar.prefWidthProperty().bind(volumeSlider.prefWidthProperty());
-        volumeProgressBar.getStylesheets().add("css/SliderAndProgressBar.css");
 
         StackPane volumeBarStackPane = new StackPane();
         volumeBarStackPane.getChildren().addAll(volumeProgressBar, volumeSlider);
@@ -455,7 +418,30 @@ public class PlayControlsFx extends BorderPane {
         return lyricViewLabel;
     }
 
+    private ImageView createImage(String imgSrc, int width, int height) {
+        ImageView imageView = new ImageView(imgSrc);
+        imageView.setFitHeight(height);
+        imageView.setFitWidth(width);
+        return imageView;
+    }
 
+    private Label createBtnLabel(String txt, String imgSrc, int width, int height, EventHandler<? super MouseEvent> value) {
+        ImageView imageView = createImage(imgSrc, width, height);
+        Label label = createBtnLabel(txt, imageView, width, height, value);
+        return label;
+
+    }
+
+    private Label createBtnLabel(String txt, ImageView imageView, int width, int height, EventHandler<? super MouseEvent> value) {
+        Label label = new Label(txt, imageView);
+        label.setPrefWidth(width);
+        label.setPrefHeight(height);
+        // label.setPadding(new Insets(10,10,10,20));
+        label.setOnMouseClicked(value);
+
+        label.getStyleClass().add("btn");
+        return label;
+    }
 
     public void setTitleAndArtist(String title, String artist) {
         musicTitleLabel.setText(title);
@@ -506,6 +492,7 @@ public class PlayControlsFx extends BorderPane {
         currentTimeLabel.setText("00:00");
         songSlider.setValue(0);
     }
+
 
     Consumer<Duration> songPositionListener;
     Function<Boolean, Double> muteChangeListener;

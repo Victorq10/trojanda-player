@@ -1,7 +1,7 @@
 package application.core.database;
 
-import application.folders.FolderModel;
-import application.songs.SongModel;
+import application.core.folders.FolderModel;
+import application.core.songs.SongModel;
 
 import java.sql.Types;
 import java.util.ArrayList;

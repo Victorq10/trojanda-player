@@ -1,6 +1,6 @@
 package application.core.view;
 
-import application.songs.SongInfo;
+import application.core.songs.SongInfo;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -66,7 +66,7 @@ public class MediaTableFx extends BorderPane {
         size.setMinWidth(80);
 
         songTableView = new TableView<>();
-        songTableView.getStylesheets().add("css/TableViewStyle.css");
+        songTableView.setId("song-table-view");
         songTableView.getColumns().addAll(nowPlaying, musicName, singer, album, totalTime, size);
         songTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         songTableView.setRowFactory(tv -> {
@@ -166,7 +166,7 @@ public class MediaTableFx extends BorderPane {
         if (beforeDialogShowListener != null) {
             beforeDialogShowListener.run();
         }
-        PreferencesStage preferencesStage = new PreferencesStage(primaryStage);
+        PreferencesWindow preferencesStage = new PreferencesWindow(primaryStage);
         preferencesStage.showAndWait();
         // When the OK button is pressed, read the path where the ChoseFolder.xml file is saved, and scan the music files below the path
         if (preferencesStage.isConfirm()) {

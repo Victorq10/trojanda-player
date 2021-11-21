@@ -1,11 +1,11 @@
-.table-view {
+#song-table-view.table-view {
     -fx-background-color: #FAFAFC;
     -fx-background-insets: 0;
     /*-fx-padding: 10 3 10 10;*/
     -fx-padding: 10 0 0 0;
 }
 
-.table-view .column-header-background {
+#song-table-view.table-view .column-header-background {
     /*
     -fx-max-height: 0;
     -fx-pref-height: 0;
@@ -21,10 +21,10 @@
 }
 */
 
-.table-column {
+#song-table-view .table-column {
     -fx-alignment: LEFT;
 }
-.table-view .column-header {
+#song-table-view.table-view .column-header {
     /*-fx-border-color: transparent;*/
     /*-fx-pref-height: 35;*/
     /*-fx-background-color: transparent;*/
@@ -35,11 +35,11 @@
     -fx-font-size: 12px;
 }
 
-.table-view .column-header .label {
+#song-table-view.table-view .column-header .label {
     -fx-alignment: CENTER_LEFT;
     /*-fx-text-fill: red;*/
 }
-.table-view .table-cell {
+#song-table-view.table-view .table-cell {
     /*-fx-text-fill: #6b6b6b;*/
     -fx-border-color: transparent;
     -fx-alignment: center-left;
@@ -50,33 +50,33 @@
 
 
 /*���ñ���һ�е���ʽ*/
-.musicName.table-cell {
+#song-table-view .musicName.table-cell {
     -fx-font-size: 13px;
     /*-fx-text-fill: #333333;*/
     /*-fx-padding: 0 0 0 10;*/
 }
-.table-view .table-row-cell .text {
+#song-table-view.table-view .table-row-cell .text {
     -fx-fill: #333333;
 }
 /*�������ʽ*/
-.table-view .table-row-cell {
+#song-table-view.table-view .table-row-cell {
     /*-fx-cell-size: 45px;*/
     -fx-background-color: #FAFAFC;
     -fx-background-insets: 0;
 }
-.table-view .table-row-cell:odd {
+#song-table-view.table-view .table-row-cell:odd {
     -fx-background-color: #F4F4F6;
 }
 /*ѡ���еı�����ɫ*/
-.table-view .table-row-cell:selected {
+#song-table-view.table-view .table-row-cell:selected {
     -fx-background-color: #e95420;
 }
 
-.table-view .table-row-cell:selected .text {
+#song-table-view.table-view .table-row-cell:selected .text {
     -fx-fill: #ffffff;
 }
 
-.table-view .table-row-cell:pressed {
+#song-table-view.table-view .table-row-cell:pressed {
     /*
     -fx-scale-x: 0.99;
     -fx-scale-y: 0.99;
@@ -88,46 +88,46 @@
 
 
 
-.scroll-bar:vertical {
+#song-table-view .scroll-bar:vertical {
     -fx-pref-width: 8;
     -fx-background-color: transparent;
 }
 
-.scroll-bar:vertical .thumb {
+#song-table-view .scroll-bar:vertical .thumb {
     -fx-background-color: #C8C9CC;
     -fx-background-insets: 0;
     -fx-background-radius: 2em;
 }
 
-.scroll-bar:vertical .thumb:hover {
+#song-table-view .scroll-bar:vertical .thumb:hover {
     -fx-background-color: #ADAFB2;
 }
 
-.scroll-bar:vertical .track {
+#song-table-view .scroll-bar:vertical .track {
     -fx-background-color: #F3F3F5;
     -fx-background-insets: 0;
 }
 
 
 
-.scroll-bar:horizontal {
+#song-table-view .scroll-bar:horizontal {
     visibility: hidden;
     -fx-pref-height: 0;
     -fx-border: 0;
     -fx-background-insets: 0;
     -fx-background-color: transparent;
 }
-.scroll-bar:horizontal .thumb {
+#song-table-view .scroll-bar:horizontal .thumb {
     visibility: hidden;
     -fx-pref-height: 2;
     -fx-border-insets: 0;
     -fx-background-color: transparent;
     -fx-background-insets: 0;
 }
-.scroll-bar:horizontal .thumb:hover {
+#song-table-view .scroll-bar:horizontal .thumb:hover {
     -fx-background-color: #ADAFB2;
 }
-.scroll-bar:horizontal .track {
+#song-table-view .scroll-bar:horizontal .track {
     -fx-pref-height: 0;
     -fx-border: 0;
     -fx-background-insets: 0;
@@ -135,22 +135,22 @@
 }
 
 /*�رհ�ť:��ֱ��ˮƽ�İ�ť*/
-.scroll-bar .increment-arrow {
+#song-table-view .scroll-bar .increment-arrow {
     visibility: hidden;
     -fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
 }
 
-.scroll-bar .decrement-arrow {
+#song-table-view .scroll-bar .decrement-arrow {
     visibility: hidden;
     -fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
 }
 
-.scroll-bar .increment-button {
+#song-table-view .scroll-bar .increment-button {
     visibility: hidden;
     -fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
 }
 
-.scroll-bar .decrement-button {
+#song-table-view .scroll-bar .decrement-button {
     visibility: hidden;
     -fx-padding: 0.0em 0.0em 0.0em 0.0em; /* 0 0 0 0 */
 }

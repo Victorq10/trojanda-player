@@ -1,6 +1,6 @@
 package application.core.playback;
 
-import application.songs.SongInfo;
+import application.core.songs.SongInfo;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

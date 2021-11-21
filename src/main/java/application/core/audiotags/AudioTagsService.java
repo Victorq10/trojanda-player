@@ -1,6 +1,6 @@
 package application.core.audiotags;
 
-import application.songs.SongInfo;
+import application.core.songs.SongInfo;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
