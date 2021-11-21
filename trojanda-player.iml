@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_14">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_X">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -27,7 +27,7 @@
     <orderEntry type="library" name="Maven: net.jthink:jaudiotagger:2.2.3" level="project" />
     <orderEntry type="library" name="Maven: org.freedesktop.gstreamer:gst1-java-fx:0.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.freedesktop.gstreamer:gst1-java-core:1.1.0" level="project" />
-    <orderEntry type="library" name="Maven: net.java.dev.jna:jna:5.8.0" level="project" />
+    <orderEntry type="library" name="Maven: net.java.dev.jna:jna:5.10.0" level="project" />
     <orderEntry type="library" name="Maven: org.gagravarr:vorbis-java-core:0.8" level="project" />
     <orderEntry type="library" name="Maven: com.j256.ormlite:ormlite-jdbc:5.3" level="project" />
     <orderEntry type="library" name="Maven: com.j256.ormlite:ormlite-core:5.3" level="project" />
