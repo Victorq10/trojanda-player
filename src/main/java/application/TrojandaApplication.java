@@ -1,15 +1,16 @@
 package application;
 
+import application.core.ControlsListener;
+import application.core.PlaybackListener;
+import application.core.UIListener;
 import application.core.playback.MediaPlayerPlayback;
 import application.core.view.MediaTableFx;
 import application.core.view.PlayControlsFx;
-import application.core.view.PlayListsFx;
+import application.core.view.PlaylistsFx;
 import application.core.songs.SongInfo;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
@@ -41,6 +42,8 @@ import static application.core.songs.SongService.songService;
 
 public class TrojandaApplication extends Application {
 
+    public static TrojandaApplication Application;
+
     public static Color PRIMARY_HIGHLIGHT_BG_COLOR = Color.rgb(200, 88, 86);
     public static Color PRIMARY_BG_COLOR = Color.rgb(188, 47, 45);
     public static Color PRIMARY_TEXT_COLOR = Color.WHITE;
@@ -60,15 +63,16 @@ public class TrojandaApplication extends Application {
     static final String randomPlay = i18nService.getMessage("player.playMode.randomPlay");
 
     private Stage primaryStage;
-    private BorderPane rootBorderPane;
+    public BorderPane rootBorderPane;
     private StackPane rootStackPane;
 
-    private PlayListsFx musicLibraryFx;
-    private MediaTableFx mediaTableFx;
-    private PlayControlsFx playControlsFx;
+    private PlaylistsFx playlistsFx;
+    public MediaTableFx mediaTableFx;
+    public PlayControlsFx playControlsFx;
 
     @Override
     public void init() throws Exception {
+        TrojandaApplication.Application = this;
         databaseService.initConnection();
         this.play.reloadSongs();
     }
@@ -83,18 +87,20 @@ public class TrojandaApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        mediaPlayerPlayback.setStartToPlaySongListener(listeners::startToPlaySongListener);
-        mediaPlayerPlayback.setOnEndOfMediaListener(listeners::onEndOfMediaListener);
-        mediaPlayerPlayback.setOnCurrentTimeChangeListener(listeners.currentTimePropertyChangeListener);
+        mediaPlayerPlayback.setPlaybackListener(new PlaybackListener());
+
+        playlistsFx = createPlaylistsFx();
+        mediaTableFx = createMediaTableFx();
+        playControlsFx = new PlayControlsFx(new ControlsListener());
 
         // The bottom borderPane of the main stage (main interface)
         rootBorderPane = new BorderPane();
         rootBorderPane.setBackground(new Background(new BackgroundFill(Color.rgb(250, 250, 252), null, null)));
-        rootBorderPane.setLeft(getLeftPane_PlayListsFx());
-        rootBorderPane.setCenter(getCenterPane_MediaTableFx());
+        rootBorderPane.setLeft(playlistsFx);
+        rootBorderPane.setCenter(mediaTableFx);
 //        SplitPane splitPane = new SplitPane(getLeftPane(), getCenterPane());
 //        rootBorderPane.setCenter(splitPane);
-        rootBorderPane.setBottom(getBottomPane_PlayControlsFx());
+        rootBorderPane.setBottom(playControlsFx);
         rootBorderPane.setBorder(new Border(new BorderStroke(Color.rgb(110, 110, 111), BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
 
         // StackPane всієї основної сцени (основного інтерфейсу) розміщується внизу. Інформаційна підказка для
@@ -122,181 +128,25 @@ public class TrojandaApplication extends Application {
      *
      * @return
      */
-    private BorderPane getLeftPane_PlayListsFx() {
-        musicLibraryFx = new PlayListsFx(primaryStage);
-        musicLibraryFx.setBeforeDialogShowListener(listeners::beforeDialogShowListener);
-        musicLibraryFx.setAfterDialogShowListener(listeners::afterDialogShowListener);
-        return musicLibraryFx;
+    private PlaylistsFx createPlaylistsFx() {
+        PlaylistsFx playlistsFx = new PlaylistsFx(primaryStage);
+        playlistsFx.setUIListener(new UIListener());
+        return playlistsFx;
     }
 
-    private BorderPane getCenterPane_MediaTableFx() {
+    private MediaTableFx createMediaTableFx() {
         //createLyricPane();
-        mediaTableFx = new MediaTableFx(primaryStage);
-        mediaTableFx.setSongSelectedListener(listeners::songSelectedListener);
-        mediaTableFx.setSongSelectedOneClickListener(listeners::songSelectedOneClickListener);
-        mediaTableFx.setBeforeDialogShowListener(listeners::beforeDialogShowListener);
-        mediaTableFx.setAfterDialogShowListener(listeners::afterDialogShowListener);
-        mediaTableFx.setPreferencesCloseListener(listeners::preferencesClosedListener);
-
+        MediaTableFx mediaTableFx = new MediaTableFx(primaryStage);
+        mediaTableFx.setUIListener(new UIListener());
         mediaTableFx.setSongsList(play.songsList);
         return mediaTableFx;
     }
 
-    /**
-     * Create the lower playback control panel, including previous song, pause, next song, playback time display,
-     * progress bar display, etc.
-     */
-    private PlayControlsFx getBottomPane_PlayControlsFx() {
-        playControlsFx = new PlayControlsFx();
-        playControlsFx.setPlayPreviousListener(listeners::playPreviousListener);
-        playControlsFx.setPlayListener(listeners::playButtonListener);
-        playControlsFx.setPauseListener(listeners::pauseButtonListener);
-        playControlsFx.setPlayNextListener(listeners::playNextListener);
-        playControlsFx.songPositionChangeListener(listeners::songPositionSliderChangeListener);
-        playControlsFx.setMuteChangeListener(listeners::isMuteButtonChangeListener);
-        playControlsFx.setVolumeChangeListemer(listeners::volumeSliderChangeListener);
-        playControlsFx.setChangePlayModeListener(listeners::playModeButtonChangeListener);
-        return playControlsFx;
-    }
-
-    private Listeners listeners = new Listeners();
-    public class Listeners {
-        private void preferencesClosedListener() {
-            //First need to deal with the mediaPlayer player object, release resources
-            mediaPlayerPlayback.despose();
-            //Set the name of the song and the singer to be unknown, and the button for playing pause is the pause button
-            playControlsFx.setUnknown();
-            play.songsList.clear();
-            Thread run = new Thread(() -> {
-                songService.scanMusicLibrary();
-                play.reloadSongs();
-                //Set the content of the song table and sort by the song title column
-                //mediaTableFx.setSongsList(play.songsList);
-            });
-            run.start();
-        }
-
-        private void songSelectedListener(SongInfo songInfo) {
-            int index = play.songsList.indexOf(songInfo);
-            if (index == -1) {
-                System.out.println("Cannot find song " + songInfo);
-                return;
-            }
-            play.startToPlay(songInfo);
-        }
-
-        private void songSelectedOneClickListener(SongInfo songInfo) {
-            // TODO: song just selectd in the playlist
-            System.out.println("TODO: song just selectd in the playlist");
-        }
-
-        private void playPreviousListener() {
-            play.startToPlay(-1);
-        }
-
-        private final void playButtonListener() {
-            if (!mediaPlayerPlayback.play()) {
-                play.startToPlay(0);
-            }
-        }
-
-        private final void playNextListener() {
-            play.startToPlay(1);
-        }
-
-        private final void pauseButtonListener() {
-            mediaPlayerPlayback.pause();
-        }
-
-        private void songPositionSliderChangeListener(Duration duration) {
-            mediaPlayerPlayback.seek(duration);
-        }
-
-        private Double isMuteButtonChangeListener(Boolean isMute) {
-            return mediaPlayerPlayback.setMute(isMute);
-        }
-
-        private void volumeSliderChangeListener(Double volume) {
-            mediaPlayerPlayback.setVolume(volume);
-        }
-
-        private void playModeButtonChangeListener(String playModeString) {
-            play.currentPlayMode = playModeString;
-            Label playModeLabel = new Label(playModeString);
-            ToastPlayModeInfo(playModeLabel);
-        }
-
-        /**
-         * Prevent the main stage borderPane from responding to mouse events and changing the opacity function.
-         * blockBorderPane
-         */
-        private void beforeDialogShowListener() {
-            // Set the main stage interface borderPane except for the titleBar part at the top, other parts do not respond to mouse events
-            rootBorderPane.getLeft().setMouseTransparent(true);
-            rootBorderPane.getCenter().setMouseTransparent(true);
-            rootBorderPane.getBottom().setMouseTransparent(true);
-            // By the way, set the opaque color for easy reminder
-            rootBorderPane.getLeft().setOpacity(0.4);
-            rootBorderPane.getCenter().setOpacity(0.4);
-            rootBorderPane.getBottom().setOpacity(0.4);
-        }
-
-        /**
-         * The function that releases the main stage borderPane in response to mouse events and the opacity
-         * becomes the default value.
-         * releaseBorderPane
-         */
-        private void afterDialogShowListener() {
-            rootBorderPane.getLeft().setMouseTransparent(false);
-            rootBorderPane.getCenter().setMouseTransparent(false);
-            rootBorderPane.getBottom().setMouseTransparent(false);
-            rootBorderPane.getLeft().setOpacity(1);
-            rootBorderPane.getCenter().setOpacity(1);
-            rootBorderPane.getBottom().setOpacity(1);
-        }
-
-        private void startToPlaySongListener(SongInfo song) {
-            mediaTableFx.autoScrollToSongHandler(song);
-            playControlsFx.play(song.getMusicName(), song.getSinger(), song.getTotalSeconds(), song.getTotalTime());
-            play.updateSongOnStartToPlay(song);
-        }
-
-        private void onEndOfMediaListener() {
-            songService.updateLastPlayedAndPlayCount(play.currentSong);
-            play.updateLastPlayedSongsList();
-
-            SongInfo songInfo = play.getAutoplayNextSong();
-            if (songInfo == null) {
-                mediaPlayerPlayback.seek(new Duration(0));
-                playControlsFx.pause();
-            } else if (songInfo.equals(play.currentSong)) {
-                mediaPlayerPlayback.seek(new Duration(0));
-                mediaPlayerPlayback.play();
-            } else {
-                play.startToPlay(songInfo);
-            }
-        }
-
-        public void currentTimePropertyChangeListener(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-            Double totalDurationInSeconds = mediaPlayerPlayback.getTotalDurationInSeconds();
-            if (totalDurationInSeconds != null) {
-                playControlsFx.updateSognSlider(newValue, totalDurationInSeconds);
-            }
-        }
-
-        ChangeListener<Duration> currentTimePropertyChangeListener = new ChangeListener<Duration>() {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                currentTimePropertyChangeListener(observable, oldValue, newValue);
-            }
-        };
-    }
-
-    private Play play = new Play();
-    private MediaPlayerPlayback mediaPlayerPlayback = new MediaPlayerPlayback();
+    public Play play = new Play();
+    public MediaPlayerPlayback mediaPlayerPlayback = new MediaPlayerPlayback();
 
     public class Play {
-        private void updateSongOnStartToPlay(SongInfo song) {
+        public void updateSongOnStartToPlay(SongInfo song) {
             if (currentSong != null) {
                 currentSong.setNowPlaying("");
             }
@@ -306,14 +156,14 @@ public class TrojandaApplication extends Application {
             }
         }
 
-        private void updateLastPlayedSongsList() {
+        public void updateLastPlayedSongsList() {
             lastPlayedSongsList.addLast(currentSong);
             while (lastPlayedSongsList.size() > 50) {
                 lastPlayedSongsList.removeFirst();
             }
         }
 
-        private void reloadSongs() {
+        public void reloadSongs() {
             Platform.runLater(() -> {
                 //If the size of the song collection is greater than 0, clear the collection
 //                if (play.songsList != null/* && play.songsList.size() > 0*/) {
@@ -327,13 +177,13 @@ public class TrojandaApplication extends Application {
          * The function of music playback, and after mediaPlayer playback is over, the current playback mode is judged,
          * and the next song is played
          */
-        private void startToPlay(int step) {
+        public void startToPlay(int step) {
             int index = play.determineNextPlayIndex(step);
             SongInfo song = getSongInfoByIdx(index);
             startToPlay(song);
         }
 
-        private void startToPlay(SongInfo song) {
+        public void startToPlay(SongInfo song) {
             if (!mediaPlayerPlayback.autoPlay(song, playControlsFx.getVolume())) {
                 // TODO: check if we need to update UI play controls and currentSong in the TableView
                 System.out.println("// TODO: check if we need to update UI play controls and currentSong in the TableView");
@@ -341,12 +191,12 @@ public class TrojandaApplication extends Application {
         }
 
 
-        private ObservableList<SongInfo> songsList = FXCollections.observableArrayList();
+        public ObservableList<SongInfo> songsList = FXCollections.observableArrayList();
         private Deque<SongInfo> lastPlayedSongsList = new LinkedList<>();
         private List<SongInfo> randomSongsList = new ArrayList<>();
 
-        private String currentPlayMode = randomPlay;
-        private SongInfo currentSong;
+        public String currentPlayMode = randomPlay;
+        public SongInfo currentSong;
 
         private int determineNextPlayIndex(int step) {
             if (songsList.isEmpty()) {
@@ -389,7 +239,7 @@ public class TrojandaApplication extends Application {
          *
          * @return
          */
-        private SongInfo getAutoplayNextSong() {
+        public SongInfo getAutoplayNextSong() {
             boolean hasCurrentSongInPlayList = hasCurrentSongInPlayList();
             if (singleRoop.equals(currentPlayMode)) {
                 return hasCurrentSongInPlayList ? currentSong : null;
@@ -470,7 +320,7 @@ public class TrojandaApplication extends Application {
     }
 
     // Pop-up mode switching prompt animation function
-    private void ToastPlayModeInfo(Label fadingShowPlayMode) {
+    public void ToastPlayModeInfo(Label fadingShowPlayMode) {
         fadingShowPlayMode.getStylesheets().add("css/FadingLabelStyle.css");
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(2.5), fadingShowPlayMode);
         fadeTransition.setFromValue(1);
@@ -485,5 +335,3 @@ public class TrojandaApplication extends Application {
     }
 
 }
-
-

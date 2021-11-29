@@ -31,12 +31,12 @@ public class DatabaseService extends AbstractDatabaseService {
     @Override
     protected boolean createTablesAndIndexes() {
         boolean createdTables = false;
-        String[] dropTables = {
-                "DROP TABLE \"APP\".\"PLAYLISTSONGRELATION\"",
-                "DROP TABLE \"APP\".\"SONGS\"",
-                "DROP TABLE \"APP\".\"FOLDERS\"",
-                "DROP TABLE \"APP\".\"PLAYLIST\""
-        };
+        String[] dropTables = """
+                DROP TABLE "APP"."PLAYLISTSONGRELATION"
+                DROP TABLE "APP"."SONGS"
+                DROP TABLE "APP"."FOLDERS"
+                DROP TABLE "APP"."PLAYLIST"
+            """.split("\\n");
         try (Statement statement = getConnection().createStatement()) {
             logMetaDataTables();
             createTableIfNotExists(statement, folderDao.getCreateTableStatements());
@@ -50,7 +50,6 @@ public class DatabaseService extends AbstractDatabaseService {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
         return createdTables;
     }
 

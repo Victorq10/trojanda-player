@@ -7,21 +7,20 @@ import java.util.ResourceBundle;
 
 
 public class I18nService {
-    public static final I18nService i18nService = new I18nService();
-    private static Locale ukLocale;
-    private static Locale zhCNLocale;
+    private static Locale UK_LOCALE = new Locale("uk");
+    private static Locale ZK_CN_LOCALE = new Locale("zh", "CN");
+    private static List<Locale> LOCALES = Arrays.asList(UK_LOCALE, ZK_CN_LOCALE);
 
-    {
-        ukLocale = new Locale("uk");
-        zhCNLocale = new Locale("zh", "CN");
-    }
+    public static final I18nService i18nService = new I18nService(UK_LOCALE, UK_LOCALE);
 
-    private Locale defaultLocale = ukLocale;
-    private Locale currentLocale = ukLocale;
+    private Locale defaultLocale;
+    private Locale currentLocale;
 
 
     //private ResourceBundle bundle;
-    private I18nService() {
+    private I18nService(Locale defaultLocale, Locale currentLocale) {
+        this.defaultLocale = defaultLocale;
+        this.currentLocale = currentLocale;
         //bundle = ResourceBundle.getBundle("/messages/messages", ukLocal);
     }
 
@@ -30,7 +29,7 @@ public class I18nService {
     }
 
     public List<Locale> getLocals() {
-        return Arrays.asList(ukLocale, zhCNLocale);
+        return LOCALES;
     }
 
     public String getMessage(final String key) {

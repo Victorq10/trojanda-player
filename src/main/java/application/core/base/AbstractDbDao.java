@@ -20,7 +20,7 @@ public abstract class AbstractDbDao<T extends AbstractDbModel> {
     protected abstract Map<String, String> getCreateTableStatements();
     protected abstract Map<String, Map<String, String>> getCreateIndexStatements();
 
-    public boolean delete(String tableName, String pkName, long pkValue) throws SQLException {
+    protected boolean delete(String tableName, String pkName, long pkValue) throws SQLException {
         DbHelper.DeleteQuery deleteQuery = db().createDeleteQuery(tableName, pkName);
         deleteQuery.setLong(pkName, pkValue);
         return db().executeQuery(deleteQuery);

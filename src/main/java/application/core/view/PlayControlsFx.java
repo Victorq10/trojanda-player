@@ -1,5 +1,6 @@
 package application.core.view;
 
+import application.core.ControlsListener;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,12 +31,12 @@ import javafx.util.Duration;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static application.core.i18n.I18nService.i18nService;
 
 public class PlayControlsFx extends BorderPane {
+
+    private ControlsListener controlsListener;
 
     private ImageView playPauseImageView;
     private Label albumPictureLabel;
@@ -74,7 +75,9 @@ public class PlayControlsFx extends BorderPane {
     private String currentPlayMode = randomPlay;
 
 
-    public PlayControlsFx() {
+    public PlayControlsFx(ControlsListener controlsListener) {
+        this.controlsListener = controlsListener;
+
         setId("play-controls");
 
         createAlbumPictureLabel();
@@ -135,8 +138,8 @@ public class PlayControlsFx extends BorderPane {
 
     private void createPlayLast() {
         playLastLabel = createBtnLabel("", "image/PlaybackLast.png", 30, 30, e -> {
-            if (playPreviousListener != null) {
-                playPreviousListener.run();
+            if (controlsListener != null) {
+                controlsListener.playPreviousListener();
             }
         });
     }
@@ -150,21 +153,21 @@ public class PlayControlsFx extends BorderPane {
         isPlayed = !isPlayed;
         if (isPlayed) {
             playPauseImageView.setImage(new Image("image/PlaybackPause.png"));
-            if (playListener != null) {
-                playListener.run();
+            if (controlsListener != null) {
+                controlsListener.playButtonListener();
             }
         } else {
             playPauseImageView.setImage(new Image("image/PlaybackPlay.png"));
-            if (pauseListener != null) {
-                pauseListener.run();
+            if (controlsListener != null) {
+                controlsListener.pauseButtonListener();
             }
         }
     }
 
     private void createPlayNextLabel() {
         playNextLabel = createBtnLabel("", "image/PlaybackNext.png", 30, 30, e -> {
-            if (playNextListener != null)
-                playNextListener.run();
+            if (controlsListener != null)
+                controlsListener.playNextListener();
         });
     }
 
@@ -246,8 +249,8 @@ public class PlayControlsFx extends BorderPane {
                     double playTimeValue = songSlider.getValue();
                     songProgressBar.setProgress(playTimeValue / songSlider.getMax());
                     Duration duration = new Duration(1000 * playTimeValue);
-                    if(songPositionListener != null) {
-                        songPositionListener.accept(duration);;
+                    if (controlsListener != null) {
+                        controlsListener.songPositionSliderChangeListener(duration);;
                     }
                 }
 
@@ -260,8 +263,8 @@ public class PlayControlsFx extends BorderPane {
                 if (isPlayed) {
                     if (songSlider.isPressed() && !songSlider.isValueChanging()) {
                         Duration duration = new Duration(1000 * songSlider.getValue());
-                        if(songPositionListener != null) {
-                            songPositionListener.accept(duration);
+                        if(controlsListener != null) {
+                            controlsListener.songPositionSliderChangeListener(duration);
                         }
                     }
                     Date date = new Date((int) newValue.doubleValue() * 1000); //乘以一千变成秒数
@@ -316,7 +319,7 @@ public class PlayControlsFx extends BorderPane {
                     soundImageView.setImage(new Image("image/SoundVolumeMute.png"));
                 }
                 isMute = !isMute;
-                Double newVolume = muteChangeListener.apply(isMute);
+                Double newVolume = controlsListener.isMuteButtonChangeListener(isMute);
                 volumeSlider.setValue(newVolume != null ? newVolume : currentVolume);
             }
         });
@@ -354,7 +357,7 @@ public class PlayControlsFx extends BorderPane {
                     soundImageView.setImage(new Image("image/SoundVolume.png"));
                     soundIconLabel.setMouseTransparent(false);
                 }
-                volumeChangeListener.accept(volumeSlider.getValue());
+                controlsListener.volumeSliderChangeListener(volumeSlider.getValue());
             }
         });
         volumeSlider.setOnMousePressed(e -> {
@@ -365,7 +368,7 @@ public class PlayControlsFx extends BorderPane {
                 } else {
                     soundImageView.setImage(new Image("image/SoundVolume.png"));
                 }
-                volumeChangeListener.accept(volumeValue);
+                controlsListener.volumeSliderChangeListener(volumeValue);
             }
         });
 
@@ -397,8 +400,8 @@ public class PlayControlsFx extends BorderPane {
                 currentPlayMode = randomPlay;
                 playPatternView.setImage(new Image("image/PlayModeRandom.png"));
             }
-            if (changePlayModeListener != null) {
-                changePlayModeListener.accept(currentPlayMode);
+            if (controlsListener != null) {
+                controlsListener.playModeButtonChangeListener(currentPlayMode);
             }
         });
 
@@ -491,43 +494,5 @@ public class PlayControlsFx extends BorderPane {
         this.playPauseImageView.setImage(new Image("image/PlaybackPlay.png"));
         currentTimeLabel.setText("00:00");
         songSlider.setValue(0);
-    }
-
-
-    Consumer<Duration> songPositionListener;
-    Function<Boolean, Double> muteChangeListener;
-    Consumer<Double> volumeChangeListener;
-    Consumer<String> changePlayModeListener;
-    Runnable playListener;
-    Runnable pauseListener;
-    Runnable playPreviousListener;
-    Runnable playNextListener;
-
-    public void setPlayPreviousListener(Runnable playPreviousListener) {
-        this.playPreviousListener = playPreviousListener;
-    }
-    public void setPlayNextListener(Runnable playNextListener) {
-        this.playNextListener = playNextListener;
-    }
-    public void songPositionChangeListener(Consumer<Duration> songPositionListener) {
-        this.songPositionListener = songPositionListener;
-    }
-
-    public void setMuteChangeListener(Function<Boolean, Double> muteChangeListener) {
-        this.muteChangeListener = muteChangeListener;
-    }
-
-    public void setVolumeChangeListemer(Consumer<Double> volumeChangeListener) {
-        this.volumeChangeListener = volumeChangeListener;
-    }
-    public void setChangePlayModeListener(Consumer<String> changePlayModeListener) {
-        this.changePlayModeListener = changePlayModeListener;
-    }
-
-    public void setPlayListener(Runnable playListener) {
-        this.playListener = playListener;
-    }
-    public void setPauseListener(Runnable pauseListener) {
-        this.pauseListener = pauseListener;
     }
 }

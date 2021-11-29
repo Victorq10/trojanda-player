@@ -1,31 +1,22 @@
 package application.core.playback;
 
+import application.core.PlaybackListener;
 import application.core.songs.SongInfo;
-import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.function.Consumer;
 
 public class MediaPlayerPlayback {
     private Media media;
     private MediaPlayer mediaPlayer;
 
-    ChangeListener<Duration> currentTimeChangelistener;
-    Runnable onEndOfMediaListener;
-    Consumer<SongInfo> startToPlaySongListener;
+    PlaybackListener playbackListener;
 
-    public void setOnCurrentTimeChangeListener(ChangeListener<Duration> currentTimeChangelistener) {
-        this.currentTimeChangelistener = currentTimeChangelistener;
-    }
-
-    public void setOnEndOfMediaListener(Runnable onEndOfMediaListener) {
-        this.onEndOfMediaListener = onEndOfMediaListener;
-    }
-    public void setStartToPlaySongListener(Consumer<SongInfo> startToPlayListener) {
-        this.startToPlaySongListener = startToPlayListener;
+    public void setPlaybackListener(PlaybackListener playbackListener) {
+        this.playbackListener = playbackListener;
     }
 
     public void despose() {
@@ -62,13 +53,26 @@ public class MediaPlayerPlayback {
         mediaPlayer.setOnReady(() -> mediaPlayer.play());
         // Add a listener for the current playing time to the player, and update the information of
         // the current playing progress bar.
-        mediaPlayer.currentTimeProperty().addListener(currentTimeChangelistener);
+        mediaPlayer.currentTimeProperty().addListener(this::onCurrentTimeChange);
         // Action performed by the player until the end
-        mediaPlayer.setOnEndOfMedia(onEndOfMediaListener);
-        if (this.startToPlaySongListener != null) {
-            this.startToPlaySongListener.accept(song);
+        mediaPlayer.setOnEndOfMedia(this::onEndOfMedia);
+        if (this.playbackListener != null) {
+            this.playbackListener.startToPlaySongListener(song);
         }
         return true;
+    }
+
+    private <T extends Duration> void onCurrentTimeChange(
+            ObservableValue<? extends T> observable, T oldValue, T newValue) {
+        if (playbackListener != null) {
+            playbackListener.currentTimeChangeListener(this.getTotalDurationInSeconds(), newValue);
+        }
+    }
+
+    private void onEndOfMedia() {
+        if (playbackListener != null) {
+            playbackListener.onEndOfMediaListener();
+        }
     }
 
     public boolean isMute() {

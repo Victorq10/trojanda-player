@@ -123,9 +123,11 @@ ALTER TABLE APP.SONGS ALTER CoverImage SET DATA TYPE VARCHAR(3000);
 
     public List<SongModel> getAllMp3Songs() throws SQLException {
         LogTime t = new LogTime();
-        DbHelper.SqlQuery sqlQuery = db().createSqlQuery("SELECT * FROM Songs "
-                + "WHERE filetype = 'mp3'"
-                //+ "   AND Location like '/home/viktor/Music/SLUXATI/Diskoteka/%'"
+        DbHelper.SqlQuery sqlQuery = db().createSqlQuery("""
+                SELECT * FROM Songs
+                WHERE filetype = 'mp3'
+                """
+                // AND Location like '/home/viktor/Music/SLUXATI/Diskoteka/%'
         );
         List<SongModel> result = db().selectQuery(sqlQuery, songConvertor);
         t.log("SQL: getAllMp3Songs");
@@ -133,14 +135,16 @@ ALTER TABLE APP.SONGS ALTER CoverImage SET DATA TYPE VARCHAR(3000);
     }
 
     public SongModel getSongByLocation(String location) throws SQLException {
-        DbHelper.SqlQuery sqlQuery = db().createSqlQuery("SELECT * FROM Songs WHERE Location = ?Location");
+        DbHelper.SqlQuery sqlQuery = db().createSqlQuery(
+                "SELECT * FROM Songs WHERE Location = ?Location");
         sqlQuery.setString("Location", location);
         List<SongModel> result = db().selectQuery(sqlQuery, songConvertor);
         return result.isEmpty() ? null : result.get(0);
     }
 
     public SongModel getSongById(Long id) throws SQLException {
-        DbHelper.SqlQuery sqlQuery = db().createSqlQuery("SELECT * FROM Songs WHERE Id = ?Id");
+        DbHelper.SqlQuery sqlQuery = db().createSqlQuery(
+                "SELECT * FROM Songs WHERE Id = ?Id");
         sqlQuery.setLong("Id", id);
         List<SongModel> result = db().selectQuery(sqlQuery, songConvertor);
         return result.isEmpty() ? null : result.get(0);

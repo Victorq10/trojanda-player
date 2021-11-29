@@ -1,5 +1,6 @@
 package application.core.view;
 
+import application.core.UIListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -31,7 +32,7 @@ import static application.core.i18n.I18nService.i18nService;
 import static application.core.view.GlobalMenu.globalMenu;
 import static application.core.playlists.PlaylistService.playlistService;
 
-public class PlayListsFx extends BorderPane {
+public class PlaylistsFx extends BorderPane {
 
     private Stage primaryStage;
 
@@ -40,7 +41,7 @@ public class PlayListsFx extends BorderPane {
     private VBox playlistsVBox;
 
 
-    public PlayListsFx(Stage primaryStage) {
+    public PlaylistsFx(Stage primaryStage) {
         setId("playlist");
         this.primaryStage = primaryStage;
 
@@ -204,8 +205,8 @@ public class PlayListsFx extends BorderPane {
             globalMenu.show(addPlaylistLabel, Side.RIGHT, 0, 0);
         } else if (e.getButton() == MouseButton.PRIMARY) {
             // Call a function that prevents the main interface from responding to mouse events
-            if (beforeDialogShowListener != null) {
-                beforeDialogShowListener.run();
+            if (uiListener != null) {
+                uiListener.beforeDialogShowListener();
             }
             AddPlaylistWindow addPlaylistStage = new AddPlaylistWindow(primaryStage);
             addPlaylistStage.showAndWait();
@@ -216,20 +217,16 @@ public class PlayListsFx extends BorderPane {
                 playlistsVBox.getChildren().add(this.createPlaylistHBox(playlistName));
             }
             // Call the function that releases the main interface in response to mouse events
-            if (afterDialogShowListener != null) {
-                afterDialogShowListener.run();
+            if (uiListener != null) {
+                uiListener.afterDialogShowListener();
             }
         }
     }
 
-    Runnable beforeDialogShowListener;
-    Runnable afterDialogShowListener;
+    UIListener uiListener;
 
-    public void setBeforeDialogShowListener(Runnable beforeDialogShowListener) {
-        this.beforeDialogShowListener = beforeDialogShowListener;
-    }
-    public void setAfterDialogShowListener(Runnable afterDialogShowListener) {
-        this.afterDialogShowListener = afterDialogShowListener;
+    public void setUIListener(UIListener uiListener) {
+        this.uiListener = uiListener;
     }
 
 }

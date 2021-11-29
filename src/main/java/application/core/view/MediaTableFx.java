@@ -1,5 +1,6 @@
 package application.core.view;
 
+import application.core.UIListener;
 import application.core.songs.SongInfo;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -119,8 +120,8 @@ public class MediaTableFx extends BorderPane {
         //selectedRow.setBackground(selectedRowBackground);
         // Double-click the left mouse button to execute playback
         if (mouseEvent.getClickCount() == 2 && mouseEvent.getButton() == MouseButton.PRIMARY) {
-            if (songSelectedListener != null) {
-                songSelectedListener.accept(selectedRow.getItem());
+            if (uiListener != null) {
+                uiListener.songSelectedListener(selectedRow.getItem());
             }
         }
 
@@ -163,20 +164,20 @@ public class MediaTableFx extends BorderPane {
 
     private void showPreferencesStage_onMouseClick(MouseEvent e) {
         // Call a function that prevents the main interface from responding to mouse events
-        if (beforeDialogShowListener != null) {
-            beforeDialogShowListener.run();
+        if (uiListener != null) {
+            uiListener.beforeDialogShowListener();
         }
         PreferencesWindow preferencesStage = new PreferencesWindow(primaryStage);
         preferencesStage.showAndWait();
         // When the OK button is pressed, read the path where the ChoseFolder.xml file is saved, and scan the music files below the path
         if (preferencesStage.isConfirm()) {
-            if (preferencesCloseListener != null) {
-                preferencesCloseListener.run();
+            if (uiListener != null) {
+                uiListener.preferencesClosedListener();
             }
         }
         // Call the function that releases the main interface in response to mouse events
-        if (afterDialogShowListener != null) {
-            afterDialogShowListener.run();
+        if (uiListener != null) {
+            uiListener.afterDialogShowListener();
         }
 
     }
@@ -286,25 +287,9 @@ public class MediaTableFx extends BorderPane {
 
     }
 
-    Consumer<SongInfo> songSelectedListener;
-    Consumer<SongInfo> songSelectedOneClickListener;
-    Runnable beforeDialogShowListener;
-    Runnable afterDialogShowListener;
-    Runnable preferencesCloseListener;
+    UIListener uiListener;
 
-    public void setSongSelectedListener(Consumer<SongInfo> songSelectedListener) {
-        this.songSelectedListener = songSelectedListener;
-    }
-    public void setSongSelectedOneClickListener(Consumer<SongInfo> songSelectedOneClickListener) {
-        this.songSelectedOneClickListener = songSelectedOneClickListener;
-    }
-    public void setBeforeDialogShowListener(Runnable beforeDialogShowListener) {
-        this.beforeDialogShowListener = beforeDialogShowListener;
-    }
-    public void setAfterDialogShowListener(Runnable afterDialogShowListener) {
-        this.afterDialogShowListener = afterDialogShowListener;
-    }
-    public void setPreferencesCloseListener(Runnable preferencesCloseListener) {
-        this.preferencesCloseListener = preferencesCloseListener;
+    public void setUIListener(UIListener uiListener) {
+        this.uiListener = uiListener;
     }
 }
