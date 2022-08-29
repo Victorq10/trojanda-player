@@ -1,10 +1,9 @@
 package application.core.models;
 
-import application.core.models.songs.SongDao;
+import application.core.models.folders.FolderModel;
 import application.core.models.songs.SongInfo;
 import application.core.models.songs.SongModel;
 import application.core.utils.LogTime;
-import application.core.models.folders.FolderModel;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -17,9 +16,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static application.core.models.AudioTagsService.audioTagsService;
 import static application.core.config.PreferencesService.preferencesService;
+import static application.core.models.AudioTagsService.audioTagsService;
 import static application.core.models.FolderService.folderService;
+import static application.core.models.songs.SongDao.songDao;
 
 
 public class SongService {
@@ -38,7 +38,7 @@ public class SongService {
     private List<SongInfo> getAllSongFilesFromDatabase() {
         List<SongInfo> songInfos = new ArrayList<>();
         try {
-            List<SongModel> songs = SongDao.songDao.getAllMp3Songs();
+            List<SongModel> songs = songDao.getAllMp3Songs();
             LogTime t = new LogTime();
             for (SongModel song : songs) {
                 SongInfo songInfo = new SongInfo();
@@ -126,10 +126,10 @@ public class SongService {
             }
             try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(currentDirPath, this::isSupportedFile)) {
                 for (Path songPath : dirStream) {
-                    SongModel song = SongDao.songDao.getSongByLocation(songPath.toString());
+                    SongModel song = songDao.getSongByLocation(songPath.toString());
                     if (song == null) {
                         song = createSongModel(songPath, currentFolder);
-                        SongDao.songDao.addSong(song);
+                        songDao.addSong(song);
                     }
                     savedSongs.add(song);
                 }
@@ -159,11 +159,11 @@ public class SongService {
 
     public void updateLastPlayedAndPlayCount(SongInfo songInfo) {
         try {
-            SongModel song = SongDao.songDao.getSongById(songInfo.getId());
+            SongModel song = songDao.getSongById(songInfo.getId());
             if (song != null) {
                 song.setLastPlayed(new Date());
                 song.setPlayCount(song.getPlayCount() == null ? 1 : song.getPlayCount().intValue() + 1);
-                SongDao.songDao.updateLastPlayedAndPlayCount(song);
+                songDao.updateLastPlayedAndPlayCount(song);
             }
         } catch (SQLException e) {
             e.printStackTrace();
