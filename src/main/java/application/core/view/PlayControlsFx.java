@@ -32,7 +32,7 @@ import javafx.util.Duration;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static application.core.i18n.I18nService.i18nService;
+import static application.core.utils.I18nService.i18nService;
 
 public class PlayControlsFx extends BorderPane {
 

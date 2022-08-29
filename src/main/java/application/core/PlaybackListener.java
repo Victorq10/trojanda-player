@@ -1,10 +1,10 @@
 package application.core;
 
-import application.core.songs.SongInfo;
+import application.core.models.songs.SongInfo;
 import javafx.util.Duration;
 
 import static application.TrojandaApplication.Application;
-import static application.core.songs.SongService.songService;
+import static application.core.models.SongService.songService;
 
 public class PlaybackListener {
 

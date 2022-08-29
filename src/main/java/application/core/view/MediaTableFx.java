@@ -1,7 +1,7 @@
 package application.core.view;
 
 import application.core.UIListener;
-import application.core.songs.SongInfo;
+import application.core.models.songs.SongInfo;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -40,9 +40,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.function.Consumer;
-
-import static application.core.i18n.I18nService.i18nService;
+import static application.core.utils.I18nService.i18nService;
 
 public class MediaTableFx extends BorderPane {
 

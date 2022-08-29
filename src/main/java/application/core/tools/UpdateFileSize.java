@@ -1,15 +1,15 @@
 package application.core.tools;
 
-import application.core.database.DbHelper;
-import application.core.songs.SongModel;
+import application.core.utils.DbHelper;
+import application.core.models.songs.SongModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-import static application.core.database.DatabaseService.databaseService;
-import static application.core.songs.SongDao.songDao;
+import static application.core.utils.DatabaseService.databaseService;
+import static application.core.models.songs.SongDao.songDao;
 
 public class UpdateFileSize {
 

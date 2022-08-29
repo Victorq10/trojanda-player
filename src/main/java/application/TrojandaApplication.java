@@ -7,7 +7,7 @@ import application.core.playback.MediaPlayerPlayback;
 import application.core.view.MediaTableFx;
 import application.core.view.PlayControlsFx;
 import application.core.view.PlaylistsFx;
-import application.core.songs.SongInfo;
+import application.core.models.songs.SongInfo;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,9 +36,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import static application.core.database.DatabaseService.databaseService;
-import static application.core.i18n.I18nService.i18nService;
-import static application.core.songs.SongService.songService;
+import static application.core.utils.DatabaseService.databaseService;
+import static application.core.utils.I18nService.i18nService;
+import static application.core.models.SongService.songService;
 
 public class TrojandaApplication extends Application {
 
@@ -69,6 +69,10 @@ public class TrojandaApplication extends Application {
     private PlaylistsFx playlistsFx;
     public MediaTableFx mediaTableFx;
     public PlayControlsFx playControlsFx;
+
+    public Play play = new Play();
+
+    public MediaPlayerPlayback mediaPlayerPlayback = new MediaPlayerPlayback();
 
     @Override
     public void init() throws Exception {
@@ -141,9 +145,6 @@ public class TrojandaApplication extends Application {
         mediaTableFx.setSongsList(play.songsList);
         return mediaTableFx;
     }
-
-    public Play play = new Play();
-    public MediaPlayerPlayback mediaPlayerPlayback = new MediaPlayerPlayback();
 
     public class Play {
         public void updateSongOnStartToPlay(SongInfo song) {

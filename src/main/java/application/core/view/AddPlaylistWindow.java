@@ -30,8 +30,8 @@ import static application.TrojandaApplication.SECONDARY_BG_COLOR;
 import static application.TrojandaApplication.SECONDARY_BORDER_COLOR;
 import static application.TrojandaApplication.SECONDARY_HIGHLIGHT_BG_COLOR;
 import static application.TrojandaApplication.SECONDARY_TEXT_COLOR;
-import static application.core.i18n.I18nService.i18nService;
-import static application.core.playlists.PlaylistService.playlistService;
+import static application.core.utils.I18nService.i18nService;
+import static application.core.models.PlaylistService.playlistService;
 
 public class AddPlaylistWindow extends Stage {
     private double width = 362;
