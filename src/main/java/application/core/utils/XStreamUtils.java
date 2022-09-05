@@ -90,7 +90,7 @@ public class XStreamUtils {
     private static <T> void write(Path xmlPath, T xmlObject) {
         long t1 = System.currentTimeMillis();
         try (Writer writer = Files.newBufferedWriter(xmlPath)) {
-            XStreamUtils.toXML(xmlObject, writer);
+            toXML(xmlObject, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,7 +106,7 @@ public class XStreamUtils {
         long t1 = System.currentTimeMillis();
         T xmlObject = null;
         if (xmlFile.exists()) {
-            xmlObject = XStreamUtils.fromXML(xmlFile);
+            xmlObject = fromXML(xmlFile);
         }
         long t2 = System.currentTimeMillis();
         System.out.println("Read time (" + xmlFile.getName() + "): " + ((t2 - t1)) + " ms "/* + obj2*/);

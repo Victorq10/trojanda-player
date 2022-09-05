@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import static application.core.models.folders.FolderConvertor.folderConvertor;
 import static application.core.utils.DatabaseService.db;
 
 public class FolderDao implements Dao {
@@ -20,7 +21,7 @@ public class FolderDao implements Dao {
 
 
     public DbHelper.Convertor<ResultSet, FolderModel> getConvertor() {
-        return FolderConvertor.folderConvertor;
+        return folderConvertor;
     }
 
     //language=Derby
@@ -75,21 +76,21 @@ public class FolderDao implements Dao {
     public FolderModel getFolderById(long id) throws SQLException {
         DbHelper.SqlQuery sqlQuery = db().createSqlQuery("SELECT * FROM Folders WHERE ID = ?ID");
         sqlQuery.setLong("ID", id);
-        List<FolderModel> result = db().selectQuery(sqlQuery, FolderConvertor.folderConvertor);
+        List<FolderModel> result = db().selectQuery(sqlQuery, folderConvertor);
         return result.isEmpty() ? null : result.get(0);
     }
 
     public FolderModel getFolderByLocation(String location) throws SQLException {
         DbHelper.SqlQuery sqlQuery = db().createSqlQuery("SELECT * FROM Folders WHERE Location = ?Location");
         sqlQuery.setString("Location", location);
-        List<FolderModel> result = db().selectQuery(sqlQuery, FolderConvertor.folderConvertor);
+        List<FolderModel> result = db().selectQuery(sqlQuery, folderConvertor);
         return result.isEmpty() ? null : result.get(0);
     }
 
     public List<FolderModel> getAllFolders() throws SQLException {
         //return super.findAll();
         DbHelper.SqlQuery sqlQuery = db().createSqlQuery("SELECT * FROM Folders");
-        List<FolderModel> result = db().selectQuery(sqlQuery, FolderConvertor.folderConvertor);
+        List<FolderModel> result = db().selectQuery(sqlQuery, folderConvertor);
         return result;
     }
 

@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import static application.core.models.songs.SongConvertor.songConvertor;
-
 import static application.core.utils.DatabaseService.db;
 
 public class SongDao implements Dao {
