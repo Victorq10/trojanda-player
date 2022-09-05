@@ -1,5 +1,45 @@
 package application.core.utils;
 
+/**
+ * <p>
+ *      How to use LogTime:
+ *      <code>
+ *          LogTime log = new LogTime();
+ *
+ *          // ...some code
+ *
+ *          log.log("Song has been updated [pk=%d]", song.getId())
+ *
+ *          // ... again some code
+ *
+ *          log.log("All update take")
+ *      </code>
+ * </p>
+ *
+ * <p>
+ *      You can accomulate total time:
+ *      <code>
+ *          public LogTime accomulateLogTime = new LogTime();
+ *
+ *          public void initLogTime() {
+ *              accomulateLogTime = new LogTime();
+ *              accomulateLogTime.pause();
+ *          }
+ *
+ *          public void someMethod() {
+ *              accomulateLogTime.start()
+ *
+ *              // ... some code
+ *
+ *              accomulateLogTime.pause()
+ *          }
+ *
+ *          publoc void logTime() {
+ *              accomulateLogTime.log("Accomulated time")
+ *          }
+ *      </code>
+ * </p>
+ */
 public class LogTime {
     long t1;
     long total;
