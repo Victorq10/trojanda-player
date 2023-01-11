@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import static application.core.models.folders.FolderConvertor.folderConvertor;
 import static application.core.utils.DatabaseService.db;
@@ -22,32 +21,6 @@ public class FolderDao implements Dao {
 
     public DbHelper.Convertor<ResultSet, FolderModel> getConvertor() {
         return folderConvertor;
-    }
-
-    //language=Derby
-    private static final String folders_DerbyDb = """
-            CREATE TABLE folders (
-                ID         BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                Location   VARCHAR(1000),
-                FolderSize VARCHAR(50),
-                SongCount  INTEGER,
-                Parent     BIGINT
-            )
-            """;
-
-    //language=Derby
-    private static final String folderLocationIdx_DerbyDb = """
-        CREATE INDEX folder_Location_Idx ON Folders (Location)
-        """;
-
-    @Override
-    public Map<String, String> getCreateTableStatements() {
-        return Map.of("FOLDERS", folders_DerbyDb);
-    }
-
-    @Override
-    public Map<String, Map<String, String>> getCreateIndexStatements() {
-        return Map.of("FOLDERS", Map.of("folder_Location_Idx", folderLocationIdx_DerbyDb));
     }
 
     public FolderModel addFolder(FolderModel folder) throws SQLException {

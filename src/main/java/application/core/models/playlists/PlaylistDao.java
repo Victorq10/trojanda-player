@@ -6,10 +6,7 @@ import application.core.utils.DbHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import static application.core.models.playlists.PlaylistConvertor.playlistConvertor;
 import static application.core.models.songs.SongConvertor.songConvertor;
@@ -24,40 +21,6 @@ public class PlaylistDao implements Dao {
 
     public DbHelper.Convertor<ResultSet, PlaylistModel> getConvertor() {
         return playlistConvertor;
-    }
-
-    //language=Derby
-    private static final String playlist_DerbyDb = """
-            CREATE TABLE Playlist (
-                ID        BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
-                NAME      VARCHAR(255)
-            )
-            """;
-
-    //language=Derby
-    private static final String playlistSongRelation_DerbyDb = """
-            CREATE TABLE PlaylistSongRelation (
-                ID          BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                source      BIGINT NOT NULL,
-                target      BIGINT NOT NULL,
-                UNIQUE (source, target),
-                FOREIGN KEY (source) REFERENCES Playlist (ID),
-                FOREIGN KEY (target) REFERENCES Songs (ID)
-            )
-            """;
-
-
-    @Override
-    public Map<String, String> getCreateTableStatements() {
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("PLAYLIST", playlist_DerbyDb);
-        map.put("PLAYLISTSONGRELATION", playlistSongRelation_DerbyDb);
-        return map;
-    }
-
-    @Override
-    public Map<String, Map<String, String>> getCreateIndexStatements() {
-        return Collections.emptyMap();
     }
 
     public PlaylistModel addPlaylist(PlaylistModel playlist) throws SQLException {
